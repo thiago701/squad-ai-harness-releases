@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 220" width="960" height="220">
+  <rect width="960" height="220" rx="16" fill="#0B1021"/>
+  <rect x="2" y="2" width="956" height="216" rx="14" fill="none" stroke="#1E293B" stroke-width="2"/>
+  <text x="48" y="88" fill="#F8FAFC" font-family="Segoe UI, Inter, sans-serif" font-size="38" font-weight="700">SquadAI Harness v0.8.3</text>
+  <text x="48" y="132" fill="#94A3B8" font-family="Segoe UI, Inter, sans-serif" font-size="18">Distribuição Oficial Assinada · Licenciamento Criptográfico · Conformidade Corporativa</text>
+  <rect x="48" y="156" width="250" height="32" rx="6" fill="#064E3B"/>
+  <text x="64" y="177" fill="#34D399" font-family="Consolas, monospace" font-size="13">Ed25519 + ML-DSA-65 VERIFIED</text>
+</svg>

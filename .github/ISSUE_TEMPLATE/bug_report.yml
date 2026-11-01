@@ -1,0 +1,12 @@
+name: Reporte de Problema na Instalação ou Licenciamento
+description: Relate problemas de instalação, ativação ou verificação de integridade (não inclua chaves privadas ou segredos)
+title: "[Install/License]: "
+labels: ["triage"]
+body:
+  - type: textarea
+    id: environment
+    attributes:
+      label: Sistema Operacional e Versão do Instalador
+      description: Informe OS, arquitetura e versão do pacote utilizado.
+    validations:
+      required: true
