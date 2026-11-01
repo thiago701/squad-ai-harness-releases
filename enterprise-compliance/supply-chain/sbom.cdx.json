@@ -5,7 +5,7 @@
   "metadata": {
     "cgo_enabled": false,
     "scope_coverage": "Inclui runtime Go 1.24.3, 0 deps externas, 8 tools MCP e 109 skills canônicas.",
-    "timestamp": "2026-11-01T21:36:14Z",
+    "timestamp": "2026-11-01T21:44:21Z",
     "zero_external_dependencies": true
   },
   "components": [
@@ -13,7 +13,7 @@
       "license": "Apache-2.0",
       "name": "squad-ai-harness",
       "purl": "pkg:golang/github.com/thiago701/squad-ai-harness@0.8.3",
-      "sha256": "b60b6ecca20d9c5e8220849ab9d3ada624a93f663e3a5142c22b3b53c1040913",
+      "sha256": "803853388a6ab8d0fb64a53f43e86946b7be0fb2d5f0ec15f569515a0ec164ce",
       "type": "application",
       "version": "0.8.3"
     },

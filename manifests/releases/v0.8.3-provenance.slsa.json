@@ -18,7 +18,7 @@
   "subject": [
     {
       "digest": {
-        "sha256": "c0139f2a92f00f31e3408f6a79ce7e613f5cd4b873934bceaf175eac12c409d4"
+        "sha256": "e1849ebef182f6a7c979dbe413461aebf5a2c3a6812f28d7641cdb69a2b9d2eb"
       },
       "name": "SquadAI-Installer-Windows-v0_8_3.zip"
     },
@@ -30,7 +30,7 @@
     },
     {
       "digest": {
-        "sha256": "e649eb7b4e677141d22d7812e6ec96239adb3b888bb891b6bafb1d73ead100ed"
+        "sha256": "666cfd897127f4154e49661093c5908b9d751652188e80f19bd074cec8433bb2"
       },
       "name": "squad-ai-harness_0.8.3_amd64.deb"
     }

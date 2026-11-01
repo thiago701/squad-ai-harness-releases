@@ -1,8 +1,8 @@
 # Guia Oficial de Instalação Multi-Estação e Consulta Remota via MCP (`SquadAI Harness`)
 
-> **Versão:** `v0.8.3` · **Modo de Operação:** `Zero-Admin` / `Zero-EXE` / `Zero-PowerShell` (100% Nativo em Windows CMD, Git Bash e Wizard GUI HTML)
+> **Versão:** `v0.9.0` · **Modo de Operação:** `Zero-Admin` / `Zero-EXE` / `Zero-PowerShell` (100% Nativo em Windows CMD, Git Bash e Wizard GUI HTML)
 > **Repositório Oficial de Releases Públicas (SquadAI Harness — Official Releases):** [`https://github.com/thiago701/squad-ai-harness-releases`](https://github.com/thiago701/squad-ai-harness-releases)
-> **Pacote Oficial de Release Windows:** `SquadAI-Installer-Windows-v0_8_3.zip`
+> **Pacote Oficial de Release Windows:** `SquadAI-Installer-Windows-v0_9_0.zip`
 
 ---
 
@@ -24,7 +24,7 @@ sequenceDiagram
     participant EstA as Estação A (Origem do Relatório)<br/>(Servidor MCP TLS 1.3 :9443)
     participant EstB as Estação B (Qualquer PC / Workstation GPU)<br/>(Assistente Instalar-SquadAI.cmd)
 
-    Dist->>EstB: Download de SquadAI-Installer-Windows-v0_8_3.zip (Validado por SHA-256)
+    Dist->>EstB: Download de SquadAI-Installer-Windows-v0_9_0.zip (Validado por SHA-256)
     Note over EstB: Duplo-clique em Instalar-SquadAI.cmd<br/>Calibra CPU/GPU + Gera Identificador (QID) + Sincroniza Skills
     Note over EstA: Ativa Servidor MCP:<br/>"Squad ai, ligue o MCP" (Porta 9443)
     EstB->>EstA: Requisição MCP Segura (TLS 1.3 + Código de Pareamento)
@@ -42,24 +42,24 @@ Em qualquer computador Windows onde deseje instalar a SquadAI Harness (sem preci
 1. Acesse a página oficial de Releases do repositório público (**SquadAI Harness — Official Releases**):
    - **`https://github.com/thiago701/squad-ai-harness-releases/releases/latest`**
 2. Baixe o pacote empacotado correspondente à versão atual:
-   - **`SquadAI-Installer-Windows-v0_8_3.zip`**
+   - **`SquadAI-Installer-Windows-v0_9_0.zip`**
    - *(Opcional)* Confira a integridade do pacote com o arquivo `SHA256SUMS.txt` publicado na Release (no CMD ou Git Bash):
      ```cmd
-     certutil -hashfile SquadAI-Installer-Windows-v0_8_3.zip SHA256
+     certutil -hashfile SquadAI-Installer-Windows-v0_9_0.zip SHA256
      ```
      ```bash
-     sha256sum SquadAI-Installer-Windows-v0_8_3.zip
+     sha256sum SquadAI-Installer-Windows-v0_9_0.zip
      ```
-3. Extraia o arquivo `SquadAI-Installer-Windows-v0_8_3.zip` em qualquer pasta do seu usuário (ex.: `C:\Users\<seu-usuario>\SquadAI`).
+3. Extraia o arquivo `SquadAI-Installer-Windows-v0_9_0.zip` em qualquer pasta do seu usuário (ex.: `C:\Users\<seu-usuario>\SquadAI`).
 
 ### Opção B — Download via Linha de Comando (Windows CMD ou Git Bash)
 
 Se preferir baixar e extrair automaticamente pelo **CMD** ou **Git Bash** (sem privilégio de Administrador e sem PowerShell):
 
 ```cmd
-curl.exe -L -o "%USERPROFILE%\Downloads\SquadAI-Installer-Windows-v0_8_3.zip" "https://github.com/thiago701/squad-ai-harness-releases/releases/latest/download/SquadAI-Installer-Windows-v0_8_3.zip"
+curl.exe -L -o "%USERPROFILE%\Downloads\SquadAI-Installer-Windows-v0_9_0.zip" "https://github.com/thiago701/squad-ai-harness-releases/releases/latest/download/SquadAI-Installer-Windows-v0_9_0.zip"
 mkdir "%LOCALAPPDATA%\SquadAI\installer" 2>nul
-tar.exe -xf "%USERPROFILE%\Downloads\SquadAI-Installer-Windows-v0_8_3.zip" -C "%LOCALAPPDATA%\SquadAI\installer"
+tar.exe -xf "%USERPROFILE%\Downloads\SquadAI-Installer-Windows-v0_9_0.zip" -C "%LOCALAPPDATA%\SquadAI\installer"
 explorer.exe "%LOCALAPPDATA%\SquadAI\installer"
 ```
 
@@ -67,7 +67,7 @@ explorer.exe "%LOCALAPPDATA%\SquadAI\installer"
 
 ## 3. Passo 2 — Executar o Assistente de Instalação (CMD, Git Bash ou GUI HTML)
 
-1. Abra a pasta onde o pacote `SquadAI-Installer-Windows-v0_8_3.zip` foi extraído.
+1. Abra a pasta onde o pacote `SquadAI-Installer-Windows-v0_9_0.zip` foi extraído.
 2. Escolha qualquer uma das 3 formas nativas (Zero-PowerShell):
    - **Duplo-clique em `Instalar-SquadAI.cmd`** (abre automaticamente o Wizard GUI HTML no navegador e o menu interativo no `cmd.exe`);
    - **No Git Bash:** execute `./setup-squad-ai.sh`;
@@ -76,7 +76,7 @@ explorer.exe "%LOCALAPPDATA%\SquadAI\installer"
 
 ```text
 ===============================================================================
-  SQUAD AI HARNESS v0.8.3 - INSTALADOR CORPORATIVO (CMD NATIVO / ZERO-PS1)
+  SQUAD AI HARNESS v0.9.0 - INSTALADOR CORPORATIVO (CMD NATIVO / ZERO-PS1)
   Seguranca Corporativa: 100% Nativo em CMD / Git Bash · Zero PowerShell
 ===============================================================================
   Estacao Detectada : <NOME-DO-COMPUTADOR> (Usuario: <SEU-USUARIO>)
@@ -172,4 +172,4 @@ Na **`Estação B`** (onde você acabou de rodar o instalador `Instalar-SquadAI.
 |---|---|---|
 | Timeout ao conectar em `https://<IP-DA-ESTACAO-A>:9443` | Os computadores estão em sub-redes isoladas (Wi-Fi corporativo/visitante com *AP Isolation*) ou o Firewall local bloqueou a porta `9443`. | Na `Estação A`, permita o acesso para **Redes Privadas** quando o Windows Defender Firewall solicitar, ou utilize uma rede overlay autenticada (**Tailscale** / túnel SSH local `ssh -L 9443:127.0.0.1:9443 usuario@<IP-DA-ESTACAO-A>`). |
 | `ERR_INVALID_PAIR_CODE` | O código `--pair-code` informado na `Estação B` não coincide com o código iniciado na `Estação A`. | Certifique-se de utilizar o mesmo código de pareamento em ambas as pontas (padrão: `SQUAD-LAB-2026`). |
-| Bloqueio corporativo de PowerShell (`.ps1` / `ExecutionPolicy`) | Estações corporativas frequentemente bloqueiam a execução de scripts `.ps1` baixados da internet (`Zone.Identifier`). | O instalador `v0.8.3` **não utiliza PowerShell**: execute diretamente **`Instalar-SquadAI.cmd`** (CMD nativo), **`./setup-squad-ai.sh`** (Git Bash) ou abra **`SquadAI-Wizard-GUI.html`** no navegador. |
+| Bloqueio corporativo de PowerShell (`.ps1` / `ExecutionPolicy`) | Estações corporativas frequentemente bloqueiam a execução de scripts `.ps1` baixados da internet (`Zone.Identifier`). | O instalador `v0.9.0` **não utiliza PowerShell**: execute diretamente **`Instalar-SquadAI.cmd`** (CMD nativo), **`./setup-squad-ai.sh`** (Git Bash) ou abra **`SquadAI-Wizard-GUI.html`** no navegador. |

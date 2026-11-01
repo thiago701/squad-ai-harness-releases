@@ -7,5 +7,5 @@
   "cgo_enabled": false,
   "external_go_mod_deps": 0,
   "go_version": "go1.24.3",
-  "source_tree_sha256": "b60b6ecca20d9c5e8220849ab9d3ada624a93f663e3a5142c22b3b53c1040913"
+  "source_tree_sha256": "803853388a6ab8d0fb64a53f43e86946b7be0fb2d5f0ec15f569515a0ec164ce"
 }
