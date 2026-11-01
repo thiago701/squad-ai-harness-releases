@@ -1,3 +1,3 @@
-77840f20f6010f6e619a828208c58af5f276397e0a31dd6c94c7f7952b1cd79d  SquadAI-Installer-Windows-v0_8_3.zip
+cb5e672f77cdad7a14e046d0f2711969518793500d60bf178eeee7adf00a26bc  SquadAI-Installer-Windows-v0_8_3.zip
 6ab3f99b09bafc40d9d08130752729a639ee1801ded617232504ed1f26ef8ba0  SquadAI-Installer-macOS-universal-v0_8_3.pkg
-6dca05f0e2b1bdbcb29b1b0219a09202eb23d4047f27e686cb2a7eaf78cdf794  squad-ai-harness_0.8.3_amd64.deb
+666cfd897127f4154e49661093c5908b9d751652188e80f19bd074cec8433bb2  squad-ai-harness_0.8.3_amd64.deb
