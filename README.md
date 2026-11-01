@@ -1,5 +1,9 @@
 # SquadAI Harness — Official Releases (v0.8.3)
 
+<div align="center">
+  <img src="assets/logo-squad-ai-harness.jpg" alt="SquadAI Harness — Official Releases" width="100%" />
+</div>
+
 ![SquadAI Harness Hero Banner](assets/banners/squad-ai-hero-banner.svg)
 
 [![Release](https://img.shields.io/badge/Release-v0.8.3-00E676?style=for-the-badge)](manifests/releases/v0.8.3-release-manifest.json)
