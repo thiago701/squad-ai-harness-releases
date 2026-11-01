@@ -141,14 +141,39 @@ A instalação anterior é automaticamente revogada na **CRL** e uma nova geraç
 
 ---
 
-## 12. Modelo de Confiança para Empresas e Bancos
+## 12. Modelo de Confiança e Auditoria para Departamentos de Segurança (InfoSec / AppSec / GRC)
 
 ![Modelo de Confiança e Isolamento Corporativo](assets/diagrams/05-modelo-confianca-isolamento-corporativo.svg)
 
-O modo `ENTERPRISE_COMPLIANCE_MODE` garante:
-- **Zero Telemetria Externa:** Nenhum código-fonte, prompt, diff ou metadado sai do perímetro corporativo.
-- **Isolamento Estrito de Realms:** Licenças corporativas operam de forma 100% isolada de infraestruturas pessoais.
-- **Kill-Switch e Auditoria:** Cadeia de logs estruturados assinada com `SHA-256`. Consulte [docs/enterprise-compliance.md](docs/enterprise-compliance.md).
+Para que o **Departamento de Segurança da Informação (InfoSec / AppSec / Red Team / GRC)** de empresas e bancos possa **homologar o SquadAI Harness em Sandbox antes de liberar a distribuição aos desenvolvedores**, este repositório público inclui um **Pacote Completo de Auditoria e Homologação Automatizada**:
+
+### Execução Imediata da Auditoria pelo Time de Segurança (1 Comando)
+
+No **Windows (PowerShell)**:
+
+    powershell -ExecutionPolicy Bypass -File .\audit\Invoke-SquadAISecurityAudit.ps1 -BinaryPath .\squad-harness.exe
+
+No **Linux / macOS (Bash)**:
+
+    bash ./audit/verify-infosec-homologation.sh ./squad-harness
+
+Ou diretamente via motor de inspeção embutido no binário oficial:
+
+    .\squad-harness.exe enterprise-trust --verify --json
+
+### O que o Mecanismo de Auditoria Verifica Automaticamente (8 Gates Corporativos)
+1. **GATE-01 (`SUPPLY_CHAIN_PROVENANCE`):** Valida SBOM CycloneDX 1.5 (`enterprise-compliance/supply-chain/sbom.cdx.json`), Proveniência SLSA v1.0 e checksums `SHA-256`.
+2. **GATE-02 (`STATIC_AND_SECRET_ANALYSIS`):** Confere relatórios SAST (`0 CRITICAL/HIGH`), SCA (`0 CVEs críticos`) e varredura de segredos (`0 vazamentos`).
+3. **GATE-03 (`AI_GOVERNANCE_AND_LEAST_AGENCY`):** Inspeciona o inventário completo das **8 tools MCP** (`enterprise-compliance/ai-governance/mcp-inventory.json` — todas `ReadOnly: true` e `Destructive: false`) e **104 skills** com *Least Agency*.
+4. **GATE-04 (`NETWORK_ISOLATION_AND_ZERO_EGRESS`):** Audita a política *Deny-by-Default* (`enterprise-compliance/network/egress-allowlist.yaml`) garantindo zero envio de código-fonte, prompts ou diffs para fora do perímetro corporativo.
+5. **GATE-05 (`ADVERSARIAL_RESILIENCE_A_TO_H`):** Verifica a bateria Red Team A–H (`enterprise-compliance/testing/adversarial-tests/scenarios-a-to-h.json`: Prompt Injection, Tool Poisoning, Replay, Tampered Binary, Offline Expiry, Realm Isolation).
+6. **GATE-06 (`CRYPTOGRAPHIC_SIGNATURE_INTEGRITY`):** Valida o Manifesto de Transparência (`enterprise-compliance/SQUADAI-TRANSPARENCY-MANIFEST.json`) assinado com esquema híbrido `Ed25519 + ML-DSA-65 (FIPS 204)`.
+7. **GATE-07 (`SOURCE_PUBLICATION_BOUNDARY`):** Comprova a fronteira de propriedade intelectual e ausência de segredos ou chaves privadas nos artefatos distribuídos.
+8. **GATE-08 (`CLEAN_ROLLBACK_AND_KILL_SWITCH`):** Valida o *Kill-Switch* remoto via CRL e a desinstalação limpa sem resíduos fora do perfil do usuário.
+
+- **Roteiro Passo a Passo para Homologação Corporativa:** [docs/ROTEIRO_HOMOLOGACAO_SEGURANCA_CORPORATIVA.md](docs/ROTEIRO_HOMOLOGACAO_SEGURANCA_CORPORATIVA.md)
+- **Guia de Conformidade Bancária e Corporativa:** [docs/enterprise-compliance.md](docs/enterprise-compliance.md)
+- **Diretório de Evidências Auditáveis:** [enterprise-compliance/README-AUDIT.md](enterprise-compliance/README-AUDIT.md)
 
 ---
 
@@ -156,14 +181,17 @@ O modo `ENTERPRISE_COMPLIANCE_MODE` garante:
 
 ![Ciclo de Release Assinado e Verificação de Integridade](assets/diagrams/06-ciclo-release-assinado-verificacao-integridade.svg)
 
-Antes de instalar qualquer pacote, valide sua integridade no PowerShell:
+Antes de instalar ou distribuir internamente qualquer pacote, valide sua integridade no PowerShell:
 
     Get-FileHash .\SquadAI-Installer-Windows-v0_8_3.zip -Algorithm SHA256
     Get-Content .\manifests\releases\SHA256SUMS.txt
+    powershell -ExecutionPolicy Bypass -File .\audit\Invoke-SquadAISecurityAudit.ps1
 
 - **Manifesto Assinado da Release:** [manifests/releases/v0.8.3-release-manifest.json](manifests/releases/v0.8.3-release-manifest.json)
+- **Manifesto de Transparência Corporativa (PQC):** [enterprise-compliance/SQUADAI-TRANSPARENCY-MANIFEST.json](enterprise-compliance/SQUADAI-TRANSPARENCY-MANIFEST.json)
 - **SBOM CycloneDX 1.5:** [manifests/releases/v0.8.3-sbom.cdx.json](manifests/releases/v0.8.3-sbom.cdx.json)
 - **Proveniência SLSA v1.0:** [manifests/releases/v0.8.3-provenance.slsa.json](manifests/releases/v0.8.3-provenance.slsa.json)
+- **Scripts de Auditoria InfoSec:** [audit/Invoke-SquadAISecurityAudit.ps1](audit/Invoke-SquadAISecurityAudit.ps1) · [audit/verify-infosec-homologation.sh](audit/verify-infosec-homologation.sh)
 
 ---
 
@@ -199,6 +227,10 @@ Para reportar vulnerabilidades de segurança de forma responsável, siga o proto
 - [Ciclo de Vida de Licenciamento e Recuperação](docs/licensing.md)
 - [Solução de Problemas (Troubleshooting)](docs/troubleshooting.md)
 - [Conformidade Corporativa e Bancária](docs/enterprise-compliance.md)
+- [Roteiro de Homologação para Departamentos de Segurança (InfoSec / AppSec / GRC)](docs/ROTEIRO_HOMOLOGACAO_SEGURANCA_CORPORATIVA.md)
+- [Pacote de Evidências Auditáveis (8 Gates Corporativos)](enterprise-compliance/README-AUDIT.md)
+- [Script Automatizado de Auditoria Windows (PowerShell)](audit/Invoke-SquadAISecurityAudit.ps1)
+- [Script Automatizado de Auditoria Linux/macOS (Bash)](audit/verify-infosec-homologation.sh)
 
 ---
 

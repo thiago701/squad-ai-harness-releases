@@ -1,0 +1,7 @@
+network_policy: deny_by_default
+allow_personal_aws: false
+allow_personal_telemetry: false
+approved_hosts:
+  - license.enterprise.internal.corp
+  - corporate-bedrock.internal.corp
+  - git.internal.corp

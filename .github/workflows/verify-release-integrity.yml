@@ -1,4 +1,4 @@
-name: Verify Public Release Integrity
+name: Verify Public Release Integrity & InfoSec Homologation Suite
 
 on:
   push:
@@ -17,13 +17,16 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
-      - name: Verify Release Manifest, JSON Schema and Zero-Secret Invariant
+      - name: Verify Release Manifest, JSON Schema and Corporate InfoSec Homologation Suite
         run: |
           test -f manifests/releases/SHA256SUMS.txt
           test -f SECURITY.md
           test -f LICENSE.md
           test -f PRIVACY.md
-          for f in manifests/releases/*.json; do
+          test -f docs/ROTEIRO_HOMOLOGACAO_SEGURANCA_CORPORATIVA.md
+          test -f audit/Invoke-SquadAISecurityAudit.ps1
+          test -f audit/verify-infosec-homologation.sh
+          for f in manifests/releases/*.json enterprise-compliance/*.json enterprise-compliance/*/*.json; do
             jq empty "$f"
           done
-          ! grep -RInE "(BEGIN [A-Z0-9 ]*PRIVATE KEY|AKIA[0-9A-Z]{16}|sqk_live_)" .
+          bash ./audit/verify-infosec-homologation.sh

@@ -2,6 +2,7 @@
 
 ## [v0.8.3] - 2026-11-01
 ### Adicionado
+- **Suíte Completa de Auditoria e Homologação Corporativa (InfoSec / AppSec / GRC / Red Team):** scripts prontos para execução (`audit/Invoke-SquadAISecurityAudit.ps1` e `audit/verify-infosec-homologation.sh`), roteiro de homologação em Sandbox (`docs/ROTEIRO_HOMOLOGACAO_SEGURANCA_CORPORATIVA.md`) e os 17 artefatos criptograficamente assinados em `enterprise-compliance/` (8 Gates Corporativos + Cenários Adversariais A–H).
 - Instalador oficial condicionado à validação criptográfica de licença em 13 passos.
 - Console Administrativo Web (AWS CloudFront + S3 Origin Access Control SigV4) para gestão de Licenças Ativas, Cadastro/Pré-Autorização de Usuários (LGPD HMAC-SHA256), Transferência de Equipamento (Force Rebind) e Lista de Revogação Criptográfica (CRL).
 - Proteção integral do catálogo de especialistas via pacote cifrado `.sqenc` (`ML-KEM-768 + AES-256-GCM`).

@@ -1,0 +1,51 @@
+{
+  "executed_at": "2026-11-01T19:28:35Z",
+  "offline_operation_verified": true,
+  "personal_aws_blocked": true,
+  "unapproved_ai_blocked": true,
+  "exfiltration_blocked": true,
+  "approved_corporate_host_passed": true,
+  "unauthorized_bytes_leaked": 0,
+  "probes": [
+    {
+      "allowed": false,
+      "category": "LICENSING_API",
+      "destination_host": "license.personal.squad-ai.dev",
+      "protocol": "HTTPS/TLS1.3",
+      "bytes_transmitted": 0,
+      "reason_code": "ERR_PERSONAL_AWS_OR_TELEMETRY_PROHIBITED: comunicação com infraestrutura pessoal bloqueada no modo corporativo"
+    },
+    {
+      "allowed": false,
+      "category": "TELEMETRY_ENDPOINT",
+      "destination_host": "telemetry.external.io",
+      "protocol": "HTTPS/TLS1.3",
+      "bytes_transmitted": 0,
+      "reason_code": "ERR_EXTERNAL_TELEMETRY_DISABLED: telemetria externa desativada por padrão"
+    },
+    {
+      "allowed": false,
+      "category": "AI_MODEL_PROVIDER",
+      "destination_host": "api.unapproved-llm.com",
+      "protocol": "HTTPS/TLS1.3",
+      "bytes_transmitted": 0,
+      "reason_code": "ERR_EGRESS_HOST_NOT_IN_ALLOWLIST: destino fora da allowlist institucional"
+    },
+    {
+      "allowed": false,
+      "category": "AI_MODEL_PROVIDER",
+      "destination_host": "corporate-bedrock.internal.corp",
+      "protocol": "HTTPS/TLS1.3",
+      "bytes_transmitted": 0,
+      "reason_code": "ERR_CORPORATE_DATA_EXFILTRATION_PROHIBITED: bloqueio DLP contra envio de segredos, dados sensíveis ou código restrito"
+    },
+    {
+      "allowed": true,
+      "category": "AI_MODEL_PROVIDER",
+      "destination_host": "corporate-bedrock.internal.corp",
+      "protocol": "HTTPS/TLS1.3",
+      "bytes_transmitted": 44,
+      "reason_code": "OK_ALLOWED_EGRESS"
+    }
+  ]
+}
