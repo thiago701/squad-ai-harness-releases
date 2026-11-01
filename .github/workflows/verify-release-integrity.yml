@@ -11,11 +11,19 @@ permissions:
 jobs:
   verify-manifests:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Checkout Public Distribution Repository
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
-      - name: Verify Release Manifest and Checksums Presence
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Verify Release Manifest, JSON Schema and Zero-Secret Invariant
         run: |
           test -f manifests/releases/SHA256SUMS.txt
           test -f SECURITY.md
           test -f LICENSE.md
+          test -f PRIVACY.md
+          for f in manifests/releases/*.json; do
+            jq empty "$f"
+          done
+          ! grep -RInE "(BEGIN [A-Z0-9 ]*PRIVATE KEY|AKIA[0-9A-Z]{16}|sqk_live_)" .
