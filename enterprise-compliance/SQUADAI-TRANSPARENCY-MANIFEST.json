@@ -6,8 +6,8 @@
   "cgo_enabled": false,
   "external_deps_count": 0,
   "source_tree_digest_sha256": "d9537471f45d322be1904c82170ff1104d0b28d807f1f83f919bd735198cace5",
-  "build_digest_sha256": "248cf63e37ddc407c11138bad0dca9f9382858f1462eaede25f295e4696b269f",
-  "generated_at": "2026-11-01T19:28:35Z",
+  "build_digest_sha256": "a6b4d5a6d4f47c9960f62459b9897e4383a262ee57b9ebb057b1ede91db168db",
+  "generated_at": "2026-11-01T19:31:58Z",
   "telemetry": {
     "enabled": false,
     "local_audit_only": true,
@@ -95,8 +95,8 @@
       "corporate-bedrock.internal.corp",
       "git.internal.corp"
     ],
-    "approved_release_digest_sha256": "248cf63e37ddc407c11138bad0dca9f9382858f1462eaede25f295e4696b269f",
+    "approved_release_digest_sha256": "a6b4d5a6d4f47c9960f62459b9897e4383a262ee57b9ebb057b1ede91db168db",
     "licensing_mode": "CORPORATE_OFFLINE_SIGNED_NO_PERSONAL_AWS"
   },
-  "pqc_signature_b64": "kn7pJZWRL4_Khx7NKMOD59XlqjrvhVDqXAbmOEEf6KwILDpqq5LKjNhXqnW5k2IoVzh9jXwoPs0I3cnqfkjNBLdUgeg1wGutF4yzFD7F2SCDDCLqAvdFNFWMzFV-QJxlEJ1RAAt0JwAc128A6moyAIjyAgCgjHUALjQdAG3tUgA"
+  "pqc_signature_b64": "Y9JDvpjJ0GLxSBrbFBe5Gvsa0BFlDefWsrBBz5-we1vnK6GyVj7Iga8YFTqEsKG0KuDXnZERHFbYeqObBxAYAaTGBh23DWZXodXJFMxjk8oWjYZZ4DU7cXpVMcQC3un1_JcBAAOlAgA7igoAk64MAF8LUwCWoUUA_chuABtfEAA"
 }
