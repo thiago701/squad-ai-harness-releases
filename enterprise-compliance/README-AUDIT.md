@@ -2,7 +2,7 @@
 
 - **Versão Auditada:** 0.8.3
 - **Toolchain:** go1.24.3 (`CGO_ENABLED=0` · **0 dependências externas no `go.mod`**)
-- **Digest da Árvore de Código (`SHA-256`):** `d9537471f45d322be1904c82170ff1104d0b28d807f1f83f919bd735198cace5`
+- **Digest da Árvore de Código (`SHA-256`):** `b60b6ecca20d9c5e8220849ab9d3ada624a93f663e3a5142c22b3b53c1040913`
 - **Digest do Catálogo de 112 Skills (`SHA-256`):** `ae1eac0f6e71cc91089e376418b36d2548f8789d541868d617893f878de10d43`
 - **Cenários Adversariais de Transparência (A–H):** `8/8 PASS`
 - **Bytes Vazados para Destinos Não Autorizados:** `0 bytes`

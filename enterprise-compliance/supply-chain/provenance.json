@@ -10,7 +10,7 @@
   },
   "materials": [
     {
-      "sha256": "d9537471f45d322be1904c82170ff1104d0b28d807f1f83f919bd735198cace5",
+      "sha256": "b60b6ecca20d9c5e8220849ab9d3ada624a93f663e3a5142c22b3b53c1040913",
       "uri": "git+https://github.com/thiago701/squad-ai-harness"
     }
   ],

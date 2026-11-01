@@ -16,8 +16,8 @@
   [![Envelopamento](https://img.shields.io/badge/Catalog%20Cipher-ML--KEM--768%20%2B%20AES--256--GCM-0284C7?style=flat-square)](docs/licensing.md)
   [![Enterprise Trust](https://img.shields.io/badge/Enterprise%20Trust-Zero--Trust%20%2B%20SLSA%20v1.0-0D9488?style=flat-square)](docs/ROTEIRO_HOMOLOGACAO_SEGURANCA_CORPORATIVA.md)
   [![SBOM](https://img.shields.io/badge/SBOM-CycloneDX%201.5-AB47BC?style=flat-square)](manifests/releases/v0.8.3-sbom.cdx.json)
-  [![Multi-OS Installer](https://img.shields.io/badge/OS-Windows%2010%2F11%20%7C%20Linux%20.deb%20%7C%20macOS-F59E0B?style=flat-square)](docs/installation.md)
-  [![InfoSec Audit](https://img.shields.io/badge/InfoSec%20Audit-8%2F8%20Gates%20PASS-00E676?style=flat-square)](audit/Invoke-SquadAISecurityAudit.ps1)
+  [![Multi-OS Installer](https://img.shields.io/badge/OS-Windows%2010%2F11%20(CMD%2FGitBash)%20%7C%20Linux%20.deb%20%7C%20macOS-F59E0B?style=flat-square)](docs/installation.md)
+  [![InfoSec Audit](https://img.shields.io/badge/InfoSec%20Audit-8%2F8%20Gates%20PASS-00E676?style=flat-square)](audit/audit-infosec.cmd)
 
   <br/>
   <strong>Tecnologias, Linguagens, Frameworks e Plataformas Implementadas nas Skills:</strong><br/>
@@ -99,7 +99,7 @@ Consulte o detalhamento arquitetural em [docs/architecture.md](docs/architecture
 
 | Dimensão | Implementação Oficial SquadAI Harness |
 |---|---|
-| **Empacotamento** | Binário nativo único + Instalador corporativo Zero-EXE (PowerShell/Bash auditável) |
+| **Empacotamento** | Binário nativo único + Instalador corporativo Zero-EXE / Zero-PowerShell (CMD `.cmd`, Git Bash `.sh` e Wizard HTML auditáveis) |
 | **Assinatura Digital** | Esquema híbrido `Ed25519 + ML-DSA-65 (FIPS 204)` + `SHA-256` |
 | **Proteção de Catálogo** | `ML-KEM-768 (FIPS 203) + AES-256-GCM` com decriptação exclusiva em RAM |
 | **Governança Corporativa** | `ENTERPRISE_COMPLIANCE_MODE` com bloqueio de rede *deny-by-default* e auditoria encadeada |
@@ -131,18 +131,21 @@ Nenhuma instalação operacional dos componentes proprietários se completa sem 
 
 | Sistema Operacional | Arquiteturas Suportadas | Requisitos Mínimos |
 |---|---|---|
-| **Windows 10 / 11 / Server 2022+** | `amd64`, `arm64` | PowerShell 5.1+, 4 GB RAM, 200 MB em disco |
+| **Windows 10 / 11 / Server 2022+** | `amd64`, `arm64` | Windows CMD (`cmd.exe`) ou Git Bash (`bash`), Zero PowerShell, 4 GB RAM, 200 MB em disco |
 | **macOS 14 (Sonoma) / 15 (Sequoia)+** | `arm64` (Apple Silicon), `amd64` | Keychain ativo, 4 GB RAM, 200 MB em disco |
 | **Linux (Ubuntu 22.04+, Debian 12+, RHEL 9+)** | `amd64`, `arm64` | `glibc 2.35+` (ou estático musl), 4 GB RAM |
 
 ---
 
-## 8. Guia Rápido de Instalação (Windows, macOS e Linux)
+## 8. Guia Rápido de Instalação (Windows CMD / Git Bash, macOS e Linux)
 
-### Windows (Instalador Corporativo Zero-EXE)
+### Windows (Instalador Corporativo Zero-EXE e Zero-PowerShell)
 1. Baixe o pacote oficial na aba **Releases**: `SquadAI-Installer-Windows-v0_8_3.zip` e seu manifesto `SHA256SUMS.txt`.
 2. Verifique a integridade `SHA-256` (Seção 13).
-3. Extraia o arquivo `.zip` e dê **duplo-clique** em `Instalar-SquadAI.cmd` (ou execute `powershell -ExecutionPolicy Bypass -File .\setup-squad-ai.ps1`).
+3. Extraia o arquivo `.zip` e escolha qualquer uma das opções nativas (sem depender de políticas `ExecutionPolicy` do PowerShell):
+   - **Duplo-clique no CMD:** `Instalar-SquadAI.cmd` (abre o Wizard GUI HTML e o menu interativo no `cmd.exe`)
+   - **Git Bash:** `./setup-squad-ai.sh` (ou `./setup-squad-ai.sh --silent --email dev@empresa.com`)
+   - **Interface Gráfica Direta:** abra `SquadAI-Wizard-GUI.html` no navegador.
 
 ### macOS
 1. Baixe `SquadAI-Installer-macOS-universal-v0_8_3.pkg` na aba **Releases**.
@@ -195,19 +198,19 @@ A instalação anterior é automaticamente revogada na **CRL** e uma nova geraç
 
 Para que o **Departamento de Segurança da Informação (InfoSec / AppSec / Red Team / GRC)** de empresas e bancos possa **homologar o SquadAI Harness em Sandbox antes de liberar a distribuição aos desenvolvedores**, este repositório público inclui um **Pacote Completo de Auditoria e Homologação Automatizada**:
 
-### Execução Imediata da Auditoria pelo Time de Segurança (1 Comando)
+### Execução Imediata da Auditoria pelo Time de Segurança (1 Comando — Zero PowerShell)
 
-No **Windows (PowerShell)**:
+No **Windows CMD (`cmd.exe`)**:
 
-    powershell -ExecutionPolicy Bypass -File .\audit\Invoke-SquadAISecurityAudit.ps1 -BinaryPath .\squad-harness.exe
+    audit\audit-infosec.cmd
 
-No **Linux / macOS (Bash)**:
+No **Git Bash (Windows) / Linux / macOS (`bash`)**:
 
     bash ./audit/verify-infosec-homologation.sh ./squad-harness
 
 Ou diretamente via motor de inspeção embutido no binário oficial:
 
-    .\squad-harness.exe enterprise-trust --verify --json
+    squad-harness enterprise-trust --verify --json
 
 ### O que o Mecanismo de Auditoria Verifica Automaticamente (8 Gates Corporativos)
 1. **GATE-01 (`SUPPLY_CHAIN_PROVENANCE`):** Valida SBOM CycloneDX 1.5 (`enterprise-compliance/supply-chain/sbom.cdx.json`), Proveniência SLSA v1.0 e checksums `SHA-256`.
@@ -229,17 +232,23 @@ Ou diretamente via motor de inspeção embutido no binário oficial:
 
 ![Ciclo de Release Assinado e Verificação de Integridade](assets/diagrams/06-ciclo-release-assinado-verificacao-integridade.svg)
 
-Antes de instalar ou distribuir internamente qualquer pacote, valide sua integridade no PowerShell:
+Antes de instalar ou distribuir internamente qualquer pacote, valide sua integridade no **Windows CMD** ou **Git Bash**:
 
-    Get-FileHash .\SquadAI-Installer-Windows-v0_8_3.zip -Algorithm SHA256
-    Get-Content .\manifests\releases\SHA256SUMS.txt
-    powershell -ExecutionPolicy Bypass -File .\audit\Invoke-SquadAISecurityAudit.ps1
+    :: No Windows CMD (cmd.exe)
+    certutil -hashfile SquadAI-Installer-Windows-v0_8_3.zip SHA256
+    type manifests\releases\SHA256SUMS.txt
+    audit\audit-infosec.cmd
+
+    # No Git Bash / Linux / macOS
+    sha256sum SquadAI-Installer-Windows-v0_8_3.zip
+    cat manifests/releases/SHA256SUMS.txt
+    bash ./audit/verify-infosec-homologation.sh
 
 - **Manifesto Assinado da Release:** [manifests/releases/v0.8.3-release-manifest.json](manifests/releases/v0.8.3-release-manifest.json)
-- **Manifesto de Transparência Corporativa (PQC):** [enterprise-compliance/SQUADAI-TRANSPARENCY-MANIFEST.json](enterprise-compliance/SQUADAI-TRANSPARENCY-MANIFEST.json)
+- **Manifesto de Transparência Corporativa:** [enterprise-compliance/SQUADAI-TRANSPARENCY-MANIFEST.json](enterprise-compliance/SQUADAI-TRANSPARENCY-MANIFEST.json)
 - **SBOM CycloneDX 1.5:** [manifests/releases/v0.8.3-sbom.cdx.json](manifests/releases/v0.8.3-sbom.cdx.json)
 - **Proveniência SLSA v1.0:** [manifests/releases/v0.8.3-provenance.slsa.json](manifests/releases/v0.8.3-provenance.slsa.json)
-- **Scripts de Auditoria InfoSec:** [audit/Invoke-SquadAISecurityAudit.ps1](audit/Invoke-SquadAISecurityAudit.ps1) · [audit/verify-infosec-homologation.sh](audit/verify-infosec-homologation.sh)
+- **Scripts de Auditoria InfoSec (CMD e Git Bash):** [audit/audit-infosec.cmd](audit/audit-infosec.cmd) · [audit/verify-infosec-homologation.sh](audit/verify-infosec-homologation.sh)
 
 ---
 
@@ -247,8 +256,8 @@ Antes de instalar ou distribuir internamente qualquer pacote, valide sua integri
 
 - **Posso copiar a pasta instalada para outro computador?**
   Não. A licença e a chave privada do dispositivo são seladas na âncora de segurança do sistema operacional original. Utilize `squad-harness license recover` para transferir oficialmente sua licença.
-- **O instalador funciona sem privilégios de Administrador Local?**
-  Sim. O pacote `SquadAI-Installer-Windows-v0_8_3.zip` instala no escopo do usuário (`%USERPROFILE%`) sem exigir UAC elevado.
+- **O instalador funciona sem privilégios de Administrador Local e sem PowerShell?**
+  Sim. O pacote `SquadAI-Installer-Windows-v0_8_3.zip` instala no escopo do usuário (`%USERPROFILE%`) via **Windows CMD (`Instalar-SquadAI.cmd`)** ou **Git Bash (`setup-squad-ai.sh`)** e interface gráfica **HTML (`SquadAI-Wizard-GUI.html`)**, sem usar `powershell.exe` e sem exigir UAC elevado.
 - **O que acontece se minha conexão cair após a ativação?**
   Após a ativação inicial, o verificador local opera em cache autenticado durante a janela de tolerância offline configurada no seu perfil de licença.
 
@@ -262,7 +271,7 @@ Para reportar vulnerabilidades de segurança de forma responsável, siga o proto
 
 ## 16. Roadmap Público de Alto Nível
 
-- **v0.8.3 (Atual):** Distribuição oficial assinada, instalador condicionado à licença em 13 passos, catálogo cifrado `.sqenc` e pacote de conformidade bancária/enterprise.
+- **v0.8.3 (Atual):** Distribuição oficial assinada, instalador Zero-PowerShell (CMD + Git Bash + GUI HTML) condicionado à licença em 13 passos, catálogo cifrado `.sqenc` e pacote de conformidade bancária/enterprise.
 - **Próximo Ciclo:** Suporte nativo a HSM PKCS#11 corporativo on-premises e federação OIDC/SAML 2.0 empresarial.
 
 ---
@@ -277,8 +286,8 @@ Para reportar vulnerabilidades de segurança de forma responsável, siga o proto
 - [Conformidade Corporativa e Bancária](docs/enterprise-compliance.md)
 - [Roteiro de Homologação para Departamentos de Segurança (InfoSec / AppSec / GRC)](docs/ROTEIRO_HOMOLOGACAO_SEGURANCA_CORPORATIVA.md)
 - [Pacote de Evidências Auditáveis (8 Gates Corporativos)](enterprise-compliance/README-AUDIT.md)
-- [Script Automatizado de Auditoria Windows (PowerShell)](audit/Invoke-SquadAISecurityAudit.ps1)
-- [Script Automatizado de Auditoria Linux/macOS (Bash)](audit/verify-infosec-homologation.sh)
+- [Script Automatizado de Auditoria Windows CMD](audit/audit-infosec.cmd)
+- [Script Automatizado de Auditoria Git Bash / Linux / macOS](audit/verify-infosec-homologation.sh)
 
 ---
 

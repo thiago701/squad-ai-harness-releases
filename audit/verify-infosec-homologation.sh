@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # ==============================================================================
 # SQUADAI HARNESS (v0.8.3) - CORPORATE INFOSEC & GRC HOMOLOGATION AUDIT SUITE
-# Script auditável (Read-Only, Zero-Root) para Departamentos de Segurança
-# validarem os 8 Gates Corporativos, hashes SHA-256, SBOM CycloneDX 1.5,
-# Proveniência SLSA v1.0 e Cenários Adversariais A-H em Linux / macOS / CI.
+# Script auditável (Read-Only, Zero-Root, Zero-PowerShell) para Departamentos de
+# Segurança validarem os 8 Gates Corporativos, hashes SHA-256, SBOM CycloneDX 1.5,
+# Proveniência SLSA v1.0 e Cenários Adversariais A-H em Git Bash (Windows) / Linux / macOS.
 # ==============================================================================
 set -euo pipefail
 
@@ -15,6 +15,7 @@ BINARY_PATH="${1:-}"
 
 echo "================================================================================"
 echo " SQUADAI HARNESS (v0.8.3) - CORPORATE INFOSEC & GRC HOMOLOGATION AUDIT SUITE"
+echo " Engine: Git Bash / POSIX Bash (Zero PowerShell)"
 echo "================================================================================"
 echo "Data UTC da Auditoria : $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 echo "Diretorio Auditado    : ${REPO_ROOT}"
@@ -43,7 +44,7 @@ echo "[PASS] GATE-06 - CRYPTOGRAPHIC_SIGNATURE_INTEGRITY (Ed25519 + ML-DSA-65 FI
 echo "[PASS] GATE-07 - SOURCE_PUBLICATION_BOUNDARY (Zero Proprietary Source or Key Material)"
 echo "[PASS] GATE-08 - CLEAN_ROLLBACK_AND_KILL_SWITCH (CRL + Clean Uninstall Verified)"
 
-if [[ -n "${BINARY_PATH}" && -x "${BINARY_PATH}" ]]; then
+if [[ -n "${BINARY_PATH}" && ( -x "${BINARY_PATH}" || -f "${BINARY_PATH}" ) ]]; then
   echo ""
   echo "Executando verificacao criptografica dinamica via binario: ${BINARY_PATH} ..."
   "${BINARY_PATH}" enterprise-trust --verify

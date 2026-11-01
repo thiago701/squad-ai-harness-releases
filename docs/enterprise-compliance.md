@@ -6,14 +6,14 @@
 - **Auditoria Criptográfica:** Eventos operacionais registrados localmente em cadeia `SHA-256` verificável pelo time de Segurança/SIEM.
 - **Desinstalação e Rollback Limpos:** Remoção integral de artefatos sem resíduos ocultos no registro ou fora do diretório de usuário.
 
-## Como Executar a Auditoria de Homologação (InfoSec / AppSec / GRC)
+## Como Executar a Auditoria de Homologação (InfoSec / AppSec / GRC — Zero PowerShell)
 Antes de liberar o uso para as equipes de desenvolvimento, o Departamento de Segurança pode homologar a ferramenta de ponta a ponta em menos de 30 segundos:
 
-1. **Windows (PowerShell):**
-   ```powershell
-   powershell -ExecutionPolicy Bypass -File .\audit\Invoke-SquadAISecurityAudit.ps1 -BinaryPath .\squad-harness.exe
+1. **Windows CMD (`cmd.exe`):**
+   ```cmd
+   audit\audit-infosec.cmd .\squad-harness.exe
    ```
-2. **Linux / macOS (Bash):**
+2. **Git Bash (Windows) / Linux / macOS (`bash`):**
    ```bash
    bash ./audit/verify-infosec-homologation.sh ./squad-harness
    ```
