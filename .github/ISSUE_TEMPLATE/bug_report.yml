@@ -1,0 +1,12 @@
+name: Reporte de Problema na Instalação ou Uso
+description: Relate problemas de instalação, ativação ou verificação de integridade (não inclua informações confidenciais)
+title: "[Install]: "
+labels: ["triage"]
+body:
+  - type: textarea
+    id: environment
+    attributes:
+      label: Sistema Operacional e Versão do Instalador
+      description: Informe OS, arquitetura e versão do pacote utilizado.
+    validations:
+      required: true

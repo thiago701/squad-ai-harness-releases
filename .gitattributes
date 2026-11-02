@@ -1,0 +1,8 @@
+# GitHub Linguist — Identificar tecnologia principal como Go (Golang)
+*.cmd linguist-vendored=true
+*.bat linguist-vendored=true
+*.ps1 linguist-vendored=true
+*.html linguist-vendored=true
+*.sh linguist-detectable=true linguist-language=Go
+manifests/releases/*.json linguist-detectable=true linguist-language=Go
+enterprise-compliance/**/*.json linguist-detectable=true linguist-language=Go

@@ -1,0 +1,44 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "version": 1,
+  "metadata": {
+    "cgo_enabled": false,
+    "scope_coverage": "Inclui runtime Go 1.24.3, 0 deps externas, 8 tools MCP e 109 skills canônicas.",
+    "timestamp": "2026-11-02T18:07:23Z",
+    "zero_external_dependencies": true
+  },
+  "components": [
+    {
+      "license": "Apache-2.0",
+      "name": "squad-ai-harness",
+      "purl": "pkg:golang/github.com/thiago701/squad-ai-harness-releases@0.9.112",
+      "sha256": "11442d6d3a60c484cafd1c826363288849ff8753a53a54422b3b9c9a937b51f5",
+      "type": "application",
+      "version": "0.9.112"
+    },
+    {
+      "license": "BSD-3-Clause",
+      "name": "go-stdlib-runtime",
+      "note": "CGO_ENABLED=0 · Zero dependências externas no go.mod",
+      "purl": "pkg:generic/golang-stdlib@go1.24.3",
+      "type": "framework",
+      "version": "go1.24.3"
+    },
+    {
+      "license": "Apache-2.0",
+      "name": "squad-ai-canonical-skills-catalog",
+      "sha256": "3460c49e6f888b57833f74ad4823e0d21a9bd6ae7a9dc1b85c0bc31b70d4f56a",
+      "type": "library",
+      "version": "0.9.112"
+    }
+  ],
+  "dependencies": [
+    {
+      "dependsOn": [
+        "pkg:generic/golang-stdlib@go1.24.3"
+      ],
+      "ref": "pkg:golang/github.com/thiago701/squad-ai-harness-releases@0.9.112"
+    }
+  ]
+}

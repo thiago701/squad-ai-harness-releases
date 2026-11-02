@@ -1,0 +1,99 @@
+{
+  "artifacts": [
+    {
+      "product": "squad-ai-harness",
+      "artifact_name": "setup-squad-ai-windows.sh",
+      "version": "0.9.112",
+      "min_allowed_version": "0.8.0",
+      "target_os": "windows",
+      "target_arch": "amd64",
+      "sha256_hex": "02222f0e0c86fa339e42038926cde544dd44f43069a37b1b74b8887757ff4999",
+      "size_bytes": 34799,
+      "compiler_flags": "CGO_ENABLED=0 -trimpath -ldflags='-s -w -buildid='",
+      "packer_used": "NONE (Zero-UPX Corporate EDR Safe)",
+      "signed_at_utc": "2026-11-02T18:07:22Z",
+      "signer_public_key": {
+        "key_id": "official-release-signer-f9cd3c52c04ff00a",
+        "algorithm": "HYBRID-ED25519-ML-DSA-65-FIPS204",
+        "ed25519_public_b64": "bCNmHTm3ZpmvSDu47PuvqvnLP6FcLIvI8JUxyboXhR4",
+        "mldsa65_public_b64": "ELQBjSHRZTscbIj_QUInUK-3EB3AxnjV4mF5G1MQitHl2G4AAAQ8AMpmegCiQTsA7e4vAEKPCgCwywEAu-QCAFRTRwA6tBAApUE7AOzuLwCVQ0MAXA0CANnrEwBSZSUArhwyAOTkMQDX3V8AqGhxAFpIAQDP3jgArJB0ADy0EAAkiCgAM-QnAEKPCgCuywEAx9FdAP4DPAAeSkgAhiZtAGrFpbPBW1w39tjXqSRIeqEb7YUAT1rnadquzi2KIU_h",
+        "created_at": "2026-11-02T18:07:22Z"
+      },
+      "hybrid_signature_b64": "Wkc88Oc1yFkgw7hK2eH1AFz0FoA7TQqAWW51WwSAiKYLt_C27u5NKEpbgHyOEmqY1jX1tO9fMJQSuzzMQ9S1B_7pFiUne6PbIkDKqz6ZAUhwZ2-q0PwwT0BpU_Wb8UeS4gllAGBTPwDpDzEAmMs_APDKDQBRh14Aj8EQAO3KTAA"
+    },
+    {
+      "product": "squad-ai-harness",
+      "artifact_name": "setup-squad-ai-linux.sh",
+      "version": "0.9.112",
+      "min_allowed_version": "0.8.0",
+      "target_os": "linux",
+      "target_arch": "amd64",
+      "sha256_hex": "02222f0e0c86fa339e42038926cde544dd44f43069a37b1b74b8887757ff4999",
+      "size_bytes": 34799,
+      "compiler_flags": "CGO_ENABLED=0 -trimpath -ldflags='-s -w -buildid='",
+      "packer_used": "NONE (Zero-UPX Corporate EDR Safe)",
+      "signed_at_utc": "2026-11-02T18:07:22Z",
+      "signer_public_key": {
+        "key_id": "official-release-signer-f9cd3c52c04ff00a",
+        "algorithm": "HYBRID-ED25519-ML-DSA-65-FIPS204",
+        "ed25519_public_b64": "bCNmHTm3ZpmvSDu47PuvqvnLP6FcLIvI8JUxyboXhR4",
+        "mldsa65_public_b64": "ELQBjSHRZTscbIj_QUInUK-3EB3AxnjV4mF5G1MQitHl2G4AAAQ8AMpmegCiQTsA7e4vAEKPCgCwywEAu-QCAFRTRwA6tBAApUE7AOzuLwCVQ0MAXA0CANnrEwBSZSUArhwyAOTkMQDX3V8AqGhxAFpIAQDP3jgArJB0ADy0EAAkiCgAM-QnAEKPCgCuywEAx9FdAP4DPAAeSkgAhiZtAGrFpbPBW1w39tjXqSRIeqEb7YUAT1rnadquzi2KIU_h",
+        "created_at": "2026-11-02T18:07:22Z"
+      },
+      "hybrid_signature_b64": "obkReR3IcK8CTsvMdIf3H2TKSPVGOmsTzK__6CMB99U3XptGxQCa0gCf8Ufw-X1wj-209auHE4HCdzda96ANDi5jeSxADl-qKT8t_-WjDACVmB1pmlvZcpIsIoJZYhkQd5AoAOIwKgCNQgoALMkqAKtWGQDyUXEA3ONWACrqNQA"
+    },
+    {
+      "product": "squad-ai-harness",
+      "artifact_name": "setup-squad-ai-macos.sh",
+      "version": "0.9.112",
+      "min_allowed_version": "0.8.0",
+      "target_os": "darwin",
+      "target_arch": "universal",
+      "sha256_hex": "02222f0e0c86fa339e42038926cde544dd44f43069a37b1b74b8887757ff4999",
+      "size_bytes": 34799,
+      "compiler_flags": "CGO_ENABLED=0 -trimpath -ldflags='-s -w -buildid='",
+      "packer_used": "NONE (Zero-UPX Corporate EDR Safe)",
+      "signed_at_utc": "2026-11-02T18:07:22Z",
+      "signer_public_key": {
+        "key_id": "official-release-signer-f9cd3c52c04ff00a",
+        "algorithm": "HYBRID-ED25519-ML-DSA-65-FIPS204",
+        "ed25519_public_b64": "bCNmHTm3ZpmvSDu47PuvqvnLP6FcLIvI8JUxyboXhR4",
+        "mldsa65_public_b64": "ELQBjSHRZTscbIj_QUInUK-3EB3AxnjV4mF5G1MQitHl2G4AAAQ8AMpmegCiQTsA7e4vAEKPCgCwywEAu-QCAFRTRwA6tBAApUE7AOzuLwCVQ0MAXA0CANnrEwBSZSUArhwyAOTkMQDX3V8AqGhxAFpIAQDP3jgArJB0ADy0EAAkiCgAM-QnAEKPCgCuywEAx9FdAP4DPAAeSkgAhiZtAGrFpbPBW1w39tjXqSRIeqEb7YUAT1rnadquzi2KIU_h",
+        "created_at": "2026-11-02T18:07:22Z"
+      },
+      "hybrid_signature_b64": "08FypKPV8erTtYEVjVcE_z_hQLg0penI4qMlqZVhQ9ptYvUZYBlz1UNXw_EGdsXDb4qTfa0UvMKbv5hiDkxZCw31zry5_NbPC7oSj1EeNEdaEPTW1f0RVJ3J7yMRuZxpXeUeAEozfQDQun8AWnB9AArtcQAuVi4Ag39uAOxaOwA"
+    },
+    {
+      "product": "squad-ai-harness",
+      "artifact_name": "squad-ai-harness_0.9.112_amd64.deb",
+      "version": "0.9.112",
+      "min_allowed_version": "0.8.0",
+      "target_os": "linux",
+      "target_arch": "amd64",
+      "sha256_hex": "48756b4d15ed094397ea29d906bba27e4f4ff248271807bcd2ff233e2c92f36a",
+      "size_bytes": 1046,
+      "compiler_flags": "CGO_ENABLED=0 -trimpath -ldflags='-s -w -buildid='",
+      "packer_used": "NONE (Zero-UPX Corporate EDR Safe)",
+      "signed_at_utc": "2026-11-02T18:07:22Z",
+      "signer_public_key": {
+        "key_id": "official-release-signer-f9cd3c52c04ff00a",
+        "algorithm": "HYBRID-ED25519-ML-DSA-65-FIPS204",
+        "ed25519_public_b64": "bCNmHTm3ZpmvSDu47PuvqvnLP6FcLIvI8JUxyboXhR4",
+        "mldsa65_public_b64": "ELQBjSHRZTscbIj_QUInUK-3EB3AxnjV4mF5G1MQitHl2G4AAAQ8AMpmegCiQTsA7e4vAEKPCgCwywEAu-QCAFRTRwA6tBAApUE7AOzuLwCVQ0MAXA0CANnrEwBSZSUArhwyAOTkMQDX3V8AqGhxAFpIAQDP3jgArJB0ADy0EAAkiCgAM-QnAEKPCgCuywEAx9FdAP4DPAAeSkgAhiZtAGrFpbPBW1w39tjXqSRIeqEb7YUAT1rnadquzi2KIU_h",
+        "created_at": "2026-11-02T18:07:22Z"
+      },
+      "hybrid_signature_b64": "qW1xxNneD20C6RZAKu2OumtEACJ2c-sh14BG1M1svdLV0zZevxRxbFJZ0o5scDXWJxT_LdS95-Laq0HI5aG4ABcbs87zVNEYoQinqMvrQAMrSNMjLViZBi5iNdoI0m7B8nYfABm8MwDdaXIAB1QQAEzSTwC5ykwAb6xyAIkuEAA"
+    }
+  ],
+  "min_allowed_version": "0.8.0",
+  "product": "squad-ai-harness",
+  "published_at_utc": "2026-11-02T18:07:22Z",
+  "publisher_public_key": {
+    "key_id": "official-release-signer-f9cd3c52c04ff00a",
+    "algorithm": "HYBRID-ED25519-ML-DSA-65-FIPS204",
+    "ed25519_public_b64": "bCNmHTm3ZpmvSDu47PuvqvnLP6FcLIvI8JUxyboXhR4",
+    "mldsa65_public_b64": "ELQBjSHRZTscbIj_QUInUK-3EB3AxnjV4mF5G1MQitHl2G4AAAQ8AMpmegCiQTsA7e4vAEKPCgCwywEAu-QCAFRTRwA6tBAApUE7AOzuLwCVQ0MAXA0CANnrEwBSZSUArhwyAOTkMQDX3V8AqGhxAFpIAQDP3jgArJB0ADy0EAAkiCgAM-QnAEKPCgCuywEAx9FdAP4DPAAeSkgAhiZtAGrFpbPBW1w39tjXqSRIeqEb7YUAT1rnadquzi2KIU_h",
+    "created_at": "2026-11-02T18:07:22Z"
+  },
+  "version": "0.9.112"
+}

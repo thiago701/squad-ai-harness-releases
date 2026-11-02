@@ -1,0 +1,102 @@
+{
+  "application": "squad-ai-harness",
+  "distribution": "enterprise-auditable-edition",
+  "version": "0.9.112",
+  "go_toolchain": "go1.24.3",
+  "cgo_enabled": false,
+  "external_deps_count": 0,
+  "source_tree_digest_sha256": "11442d6d3a60c484cafd1c826363288849ff8753a53a54422b3b9c9a937b51f5",
+  "build_digest_sha256": "8ef1c37255e5336a40b7079dbfb2ce2114f70fd4599bab93b0eb9f3a75293961",
+  "generated_at": "2026-11-02T18:07:23Z",
+  "telemetry": {
+    "enabled": false,
+    "local_audit_only": true,
+    "personal_aws_telemetry": false
+  },
+  "licensing": {
+    "mode": "corporate",
+    "personal_aws_dependency": false,
+    "post_quantum_signature_scheme": "HYBRID-ED25519-ML-DSA-65-FIPS204",
+    "supported_models": [
+      "ALTERNATIVE_A_ENTERPRISE_HOSTED",
+      "ALTERNATIVE_B_SIGNED_OFFLINE",
+      "ALTERNATIVE_C_HYBRID_GOVERNED"
+    ]
+  },
+  "permissions": {
+    "filesystem": "restricted_workspace_only",
+    "network": "deny_by_default_allowlist_only",
+    "secrets_access": "deny_by_default",
+    "shell_execution": "approval_required_gated"
+  },
+  "capabilities": {
+    "automatic_self_update": false,
+    "dynamic_plugins": false,
+    "mcp": "approved_only_single_go_process",
+    "remote_code_execution": false,
+    "skills": "approved_and_hash_pinned_only",
+    "source_code_inspection": "100%_available_to_authorized_auditors"
+  },
+  "runtime_behaviors_disclosed_12": [
+    "1. Processos: executável único Go estático (squad-harness), sem subprocessos ocultos.",
+    "2. Arquivos lidos: apenas o workspace autorizado, skills/*/SKILL.md e manifesto local.",
+    "3. Diretórios modificáveis: apenas artefatos do workspace e .squad-harness/ mediante gate.",
+    "4. Comandos: restritos por política e sujeitos a aprovação humana (GATE 1 / GATE 2).",
+    "5. Rede: deny_by_default; apenas hosts na allowlist institucional.",
+    "6. Provedores de IA: apenas endpoints corporativos homologados pela organização.",
+    "7. MCPs ativos: exclusivamente as 8 tools nativas em internal/mcp/server.go.",
+    "8. Skills invocadas: exclusivamente as 109 skills inventariadas e validadas por SHA-256.",
+    "9. Permissões de SO: escopo User-Space Zero-Admin (asInvoker / sem root).",
+    "10. Saída de dados: bloqueio DLP contra envio de código, segredos ou dados sensíveis.",
+    "11. Operações com aprovação humana: commits, deploys, comandos destrutivos e mudanças de rede.",
+    "12. Atualizações: desativadas automaticamente; exigem pacote assinado e homologado pela organização."
+  ],
+  "skills_count": 112,
+  "skills_catalog_sha256": "3460c49e6f888b57833f74ad4823e0d21a9bd6ae7a9dc1b85c0bc31b70d4f56a",
+  "approved_mcp_tools": [
+    "squad_route_skill",
+    "squad_sekg_query",
+    "squad_sekg_impact",
+    "squad_jev_review",
+    "squad_cultivator_status",
+    "squad_usage_report",
+    "squad_resolve_quid",
+    "squad_aiops_monitor"
+  ],
+  "compliance_policy": {
+    "enabled": true,
+    "require_approved_release": true,
+    "allow_unapproved_plugins": false,
+    "allow_unapproved_mcp": false,
+    "allow_remote_code_execution": false,
+    "allow_automatic_self_update": false,
+    "allow_personal_license_endpoint": false,
+    "allow_personal_telemetry": false,
+    "allow_unapproved_ai_providers": false,
+    "network_policy": "deny_by_default",
+    "audit_logging": true,
+    "require_explicit_permissions": true,
+    "approved_mcp_tools": [
+      "squad_route_skill",
+      "squad_sekg_query",
+      "squad_sekg_impact",
+      "squad_jev_review",
+      "squad_cultivator_status",
+      "squad_usage_report",
+      "squad_resolve_quid",
+      "squad_aiops_monitor"
+    ],
+    "approved_ai_providers": [
+      "corporate-bedrock.internal.corp",
+      "corporate-vertex.internal.corp"
+    ],
+    "approved_egress_hosts": [
+      "license.enterprise.internal.corp",
+      "corporate-bedrock.internal.corp",
+      "git.internal.corp"
+    ],
+    "approved_release_digest_sha256": "8ef1c37255e5336a40b7079dbfb2ce2114f70fd4599bab93b0eb9f3a75293961",
+    "licensing_mode": "CORPORATE_OFFLINE_SIGNED_NO_PERSONAL_AWS"
+  },
+  "pqc_signature_b64": "iSe-zp1MxBuYBPeNls3IMONOJfUCUU-hqYASD9Cha9WSkHsPP7BkdVhwiy1TeRiLbYO1COw9OT3KjW1n2IBfDMyuQmzdJjqwdQB2JxUshM9Oa_sdc7fGc8QWcdb55Kaffr95AO6lNwBLWAMA_jAgAMz5XABUpCIAGKF8AFzaJQA"
+}
