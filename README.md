@@ -98,7 +98,7 @@ O instalador provisiona as **113 skills especializadas** seguindo a regra de **P
 - **Provisionadas automaticamente quando já instaladas na máquina:**
   - **Cursor IDE** (`~/.cursor/skills`)
   - **Windsurf IDE** (`~/.codeium/windsurf/skills`)
-  - **Cline / Roo Code** (`~/.cline/skills`), **Qwen Code CLI** (`~/.qwen/skills`), **DeepSeek Harness** (`~/.dsh/skills`), **OpenCode CLI** (`~/.opencode/skills`) e **Workstation CLI** (`%LOCALAPPDATA%\RAI\CLI\skills`)
+  - **Cline / Roo Code** (`~/.cline/skills`), **Qwen Code CLI** (`~/.qwen/skills`), **DeepSeek Harness** (`~/.dsh/skills`), **OpenCode CLI** (`~/.opencode/skills`) e **Workstation CLI**
 
 ---
 
@@ -140,17 +140,17 @@ Em redes corporativas onde o proxy/firewall bloqueia downloads de `releases/down
 1. Acesse a aba **[Releases](../../releases/latest)** (ou clique no arquivo direto na raiz deste repositório) e baixe o instalador do seu Sistema Operacional (`setup-squad-ai-windows.sh`, `setup-squad-ai-linux.sh` ou `setup-squad-ai-macos.sh`).
 2. Abra o **Git Bash / Terminal** e execute o Setup Wizard interativo (`[1] INSTALAR`, `[2] REINSTALAR`, `[3] DESINSTALAR`, `[4] AUDITORIA`, `[5] LIGAR MCP`, `[6] VALIDAR PORTA`, `[7] RELATORIO MCP`) ou passe a flag diretamente:
 
-       # Instalar (valida a licença + prova de posse anti-impersonação HMAC-SHA256 no SquadAI Control Plane Server e descriptografa as 113 skills)
-       bash ./setup-squad-ai-windows.sh --install --email <SEU_EMAIL_LICENCIADO> --pin <SUA_CHAVE_SECRETA>
+       # Instalar (valida a chave de licença individual 100% offline e descriptografa as 113 skills)
+       bash ./setup-squad-ai-windows.sh --install --pin <CHAVE_LICENCA_INDIVIDUAL>
 
        # Reinstalar / Reparar preservando o Identificador (QID) da estação
-       bash ./setup-squad-ai-windows.sh --reinstall --email <SEU_EMAIL_LICENCIADO> --pin <SUA_CHAVE_SECRETA>
+       bash ./setup-squad-ai-windows.sh --reinstall --pin <CHAVE_LICENCA_INDIVIDUAL>
 
        # Auditoria de Homologação Corporativa (8 Gates + Laudo JSON em Sandbox)
        bash ./setup-squad-ai-windows.sh --audit
 
-       # Publicar Estação no MCP AWS (:443) -> Validar Canal Seguro -> Consultar Relatório MCP + Descoberta
-       bash ./setup-squad-ai-windows.sh --sync-cloud SQUAD-LAB-2026
+       # Verificar status do Servidor MCP / Porta / Relatório MCP
+       bash ./setup-squad-ai-windows.sh --serve-mcp
        bash ./setup-squad-ai-windows.sh --check-port
        bash ./setup-squad-ai-windows.sh --report-mcp
 
