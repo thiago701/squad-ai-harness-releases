@@ -1,0 +1,73 @@
+[
+  {
+    "gate_id": "GATE_0_INSTITUTIONAL_AUTH",
+    "title": "Gate 0 — Autorização Institucional, Governança e Escopo",
+    "technical_evidence_ready": true,
+    "institutional_status": "PENDING_INSTITUTIONAL_APPROVAL",
+    "required_sign_off_owner": "Liderança Executiva + Segurança da Informação + Governança/Compliance Corporativo",
+    "deliverables_verified": [
+      "Declaração de autoria independente",
+      "Isolamento total em laboratório até aprovação formal",
+      "Termo de uso gratuito sem vínculo com AWS pessoal"
+    ]
+  },
+  {
+    "gate_id": "GATE_1_TECHNICAL_DUE_DILIGENCE",
+    "title": "Gate 1 — Due Diligence Técnica, Fonte Aberto à Auditoria e Zero Dependências Externas",
+    "technical_evidence_ready": true,
+    "institutional_status": "TECHNICAL_EVIDENCE_READY_AWAITING_INSTITUTIONAL_REVIEW",
+    "required_sign_off_owner": "Arquitetura Corporativa \u0026 AppSec",
+    "deliverables_verified": [
+      "SQUADAI-TRANSPARENCY-MANIFEST.json",
+      "SBOM CycloneDX 1.5 (0 deps externas em go.mod)",
+      "Inventário de 109 skills e 8 tools MCP"
+    ]
+  },
+  {
+    "gate_id": "GATE_2_INDEPENDENT_AUDIT",
+    "title": "Gate 2 — Auditoria Independente de Código-Fonte, SAST/SCA e Build Reprodutível",
+    "technical_evidence_ready": true,
+    "institutional_status": "TECHNICAL_EVIDENCE_READY_AWAITING_INSTITUTIONAL_REVIEW",
+    "required_sign_off_owner": "Auditoria Independente / Red Team Corporativo",
+    "deliverables_verified": [
+      "Código-fonte Go 1.24.3 integralmente inspecionável",
+      "Proveniência SLSA v1.0",
+      "Recompilação determinística (-trimpath -ldflags='-s -w')"
+    ]
+  },
+  {
+    "gate_id": "GATE_3_ISOLATED_SANDBOX_LAB",
+    "title": "Gate 3 — Laboratório Isolado, Captura de Tráfego e Cenários Adversariais A-H",
+    "technical_evidence_ready": true,
+    "institutional_status": "TECHNICAL_EVIDENCE_READY_AWAITING_INSTITUTIONAL_REVIEW",
+    "required_sign_off_owner": "Engenharia de Segurança de Rede \u0026 SOC",
+    "deliverables_verified": [
+      "8/8 Cenários Adversariais de Transparência (A–H)",
+      "Teste de Egress Allowlist (0 bytes para AWS pessoal)",
+      "Dados 100% sintéticos"
+    ]
+  },
+  {
+    "gate_id": "GATE_4_CONTROLLED_PILOT",
+    "title": "Gate 4 — Piloto Controlado com Grupo Restrito, Observabilidade e Kill-Switch",
+    "technical_evidence_ready": true,
+    "institutional_status": "PENDING_INSTITUTIONAL_APPROVAL",
+    "required_sign_off_owner": "Gestão de Riscos Operacionais \u0026 CISO",
+    "deliverables_verified": [
+      "ENTERPRISE_COMPLIANCE_MODE ativo",
+      "Logs estruturados de 12 eventos",
+      "Kill-Switch imediato testado"
+    ]
+  },
+  {
+    "gate_id": "GATE_5_FINAL_EVALUATION",
+    "title": "Gate 5 — Avaliação de Resultados, Riscos Residuais e Decisão de Homologação",
+    "technical_evidence_ready": true,
+    "institutional_status": "PENDING_INSTITUTIONAL_APPROVAL",
+    "required_sign_off_owner": "Comitê de Homologação Tecnológica da Organização",
+    "deliverables_verified": [
+      "Relatório de conformidade técnica, lacunas e riscos residuais",
+      "Plano de resposta a incidentes e desativação"
+    ]
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "builder_id": "https://github.com/thiago701/squad-ai-harness-releases/releases",
+  "build_config": {
+    "cgo_enabled": 0,
+    "command": "CGO_ENABLED=0 go build -trimpath -ldflags=\"-s -w\" -o squad-harness ./cmd/squad-harness",
+    "go_version": "go1.24.3",
+    "strip_symbol": true,
+    "trimpath": true
+  },
+  "materials": [
+    {
+      "sha256": "dfbaeae9390e0a97093b545914e71cc3ae6543b36f9629da4888237f94df624b",
+      "uri": "git+https://github.com/thiago701/squad-ai-harness-releases"
+    }
+  ],
+  "reproducibility_notes": "Compilação determinística via -trimpath e -ldflags='-s -w' com CGO_ENABLED=0 e zero dependências externas. Quando compilado na mesma versão de toolchain Go e mesmo GOOS/GOARCH, o código-fonte auditado produz árvore AST e comportamento 100% equivalentes."
+}

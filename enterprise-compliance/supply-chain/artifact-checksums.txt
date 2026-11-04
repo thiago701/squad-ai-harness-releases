@@ -1,0 +1,3 @@
+dfbaeae9390e0a97093b545914e71cc3ae6543b36f9629da4888237f94df624b  source-tree-canonical
+2f00e33f48c1a49a646898770101ba6b079951a819bd6e6dbd9ffd3a82cdd209  squad-harness-binary
+25eb67eaa0f7be3e415256ae84af33c6f84c4799de1e912ac307da3e16d3e47f  skills-catalog-109
