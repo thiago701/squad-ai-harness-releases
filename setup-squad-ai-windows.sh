@@ -21,7 +21,7 @@ if [[ -n "${2:-}" && "${2:0:1}" != "-" ]]; then
     REALM="$3"
   fi
 fi
-DEFAULT_CONTROL_PLANE_URL="https://jpqhbnlhiln34py2dj4pwfjfka0roopi.lambda-url.us-east-1.on.aws"
+DEFAULT_CONTROL_PLANE_URL="127.0.0.1:9443"
 CONTROL_PLANE_URL="${SQUAD_CONTROL_PLANE_URL:-${DEFAULT_CONTROL_PLANE_URL}}"
 FORCE_OVERWRITE=0
 INTERACTIVE_MODE=1
@@ -251,19 +251,19 @@ if [[ "${SQUAD_AUDIT_FAST_SANDBOX:-0}" == "1" && "${USER_HOME}" == *"/squad-audi
   IS_AUDIT_SANDBOX=1
 fi
 
-unwrap_server_key_256() {
+unwrap_offline_slot_key_256() {
   local wrapped_hex="$1"
-  local nonce="$2"
-  local qid_up
-  qid_up="$(printf '%s' "$3" | tr '[:lower:]' '[:upper:]')"
-  local email_low
-  email_low="$(printf '%s' "$4" | tr '[:upper:]' '[:lower:]')"
-  local secret_pin="$5"
+  local realm_low
+  realm_low="$(printf '%s' "$2" | tr '[:upper:]' '[:lower:]')"
+  local key_id_up
+  key_id_up="$(printf '%s' "$3" | tr '[:lower:]' '[:upper:]')"
+  local secret_key_up
+  secret_key_up="$(printf '%s' "$4" | tr '[:lower:]' '[:upper:]')"
   local mask_hex
   if command -v sha256sum >/dev/null 2>&1; then
-    mask_hex="$(printf '%s|%s|%s|%s' "${nonce}" "${qid_up}" "${email_low}" "${secret_pin}" | sha256sum | awk '{print tolower($1)}')"
+    mask_hex="$(printf 'SQUAD-OFFLINE-KEY-WRAP-V1|%s|%s|%s' "${realm_low}" "${key_id_up}" "${secret_key_up}" | sha256sum | awk '{print tolower($1)}')"
   else
-    mask_hex="$(printf '%s|%s|%s|%s' "${nonce}" "${qid_up}" "${email_low}" "${secret_pin}" | shasum -a 256 | awk '{print tolower($1)}')"
+    mask_hex="$(printf 'SQUAD-OFFLINE-KEY-WRAP-V1|%s|%s|%s' "${realm_low}" "${key_id_up}" "${secret_key_up}" | shasum -a 256 | awk '{print tolower($1)}')"
   fi
   local out=""
   local i
@@ -276,25 +276,62 @@ unwrap_server_key_256() {
   printf '%s' "${out}"
 }
 
+xor_station_bound_key_256() {
+  local key_hex="$1"
+  local qid_up
+  qid_up="$(printf '%s' "$2" | tr '[:lower:]' '[:upper:]')"
+  local realm_low
+  realm_low="$(printf '%s' "$3" | tr '[:upper:]' '[:lower:]')"
+  local key_id_up
+  key_id_up="$(printf '%s' "$4" | tr '[:lower:]' '[:upper:]')"
+  local mask_hex
+  if command -v sha256sum >/dev/null 2>&1; then
+    mask_hex="$(printf 'SQUAD-LOCAL-STATION-BIND-V1|%s|%s|%s' "${qid_up}" "${realm_low}" "${key_id_up}" | sha256sum | awk '{print tolower($1)}')"
+  else
+    mask_hex="$(printf 'SQUAD-LOCAL-STATION-BIND-V1|%s|%s|%s' "${qid_up}" "${realm_low}" "${key_id_up}" | shasum -a 256 | awk '{print tolower($1)}')"
+  fi
+  local out=""
+  local i
+  for ((i=0; i<64; i+=8)); do
+    local w_chunk="${key_hex:i:8}"
+    local m_chunk="${mask_hex:i:8}"
+    local x_val=$(( (16#${w_chunk} ^ 16#${m_chunk}) & 0xFFFFFFFF ))
+    out="${out}$(printf '%08x' "${x_val}")"
+  done
+  printf '%s' "${out}"
+}
+
 authorize_with_control_plane() {
   UNWRAPPED_CATALOG_KEY=""
   LICENSE_ID_ISSUED=""
+  LICENSE_KEY_ID_ISSUED=""
+  LICENSE_SEATS_SUMMARY=""
   if [[ ${IS_AUDIT_SANDBOX} -eq 1 ]]; then
     return 0
   fi
 
+  local self_path="${BASH_SOURCE[0]}"
   AUTH_EMAIL="$(printf '%s' "${AUTH_EMAIL}" | tr -d ' \t\r\n')"
   ACTIVATION_PIN="$(printf '%s' "${ACTIVATION_PIN}" | tr -d ' \t\r\n')"
+
   local saved_email=""
+  local saved_key_id=""
+  local saved_station_bound=""
+  local saved_station_qid=""
   if [[ -f "${SQUAD_USER_DIR}/station-profile.json" ]]; then
     saved_email="$(grep -Eo '"email"[[:space:]]*:[[:space:]]*"[^"]+"' "${SQUAD_USER_DIR}/station-profile.json" 2>/dev/null | head -n 1 | sed -E 's/.*"email"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/' || true)"
     if [[ "${saved_email}" == "dev@empresa.com" ]]; then
       saved_email=""
     fi
   fi
+  if [[ -f "${SQUAD_USER_DIR}/license.json" ]]; then
+    saved_key_id="$(grep -Eo '"license_key_id"[[:space:]]*:[[:space:]]*"[^"]+"' "${SQUAD_USER_DIR}/license.json" 2>/dev/null | head -n 1 | sed -E 's/.*"license_key_id"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/' || true)"
+    saved_station_bound="$(grep -Eo '"station_bound_key"[[:space:]]*:[[:space:]]*"[0-9a-fA-F]{64}"' "${SQUAD_USER_DIR}/license.json" 2>/dev/null | head -n 1 | sed -E 's/.*"([0-9a-fA-F]{64})".*/\1/' || true)"
+    saved_station_qid="$(grep -Eo '"station_qid"[[:space:]]*:[[:space:]]*"[^"]+"' "${SQUAD_USER_DIR}/license.json" 2>/dev/null | head -n 1 | sed -E 's/.*"station_qid"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/' || true)"
+  fi
 
   if [[ -z "${AUTH_EMAIL}" && -t 0 ]]; then
-    local default_email="${saved_email:-thiago701@gmail.com}"
+    local default_email="${saved_email:-${USER_NAME}@${REALM}.local}"
     local typed_email=""
     echo ""
     read -r -p "  Informe o e-mail do desenvolvedor [ENTER = ${default_email}]: " typed_email || typed_email=""
@@ -304,124 +341,107 @@ authorize_with_control_plane() {
     else
       AUTH_EMAIL="${default_email}"
     fi
-  elif [[ -z "${AUTH_EMAIL}" && -n "${saved_email}" ]]; then
-    AUTH_EMAIL="${saved_email}"
-  fi
-
-  if [[ -z "${AUTH_EMAIL}" ]]; then
-    echo ""
-    echo "${C_BOLD}${C_RED}  [BLOQUEADO] ERR_EMAIL_REQUIRED: E-mail de licenciamento obrigatorio!${C_RESET}"
-    echo "  Informe seu e-mail e sua Chave de Licenca Individual liberada no SquadAI Control Plane Server:"
-    echo "    ${C_CYAN}bash ./setup-squad-ai-windows.sh --install --email seu@email.com --pin <SUA_CHAVE_SQKEY-ENT-...>${C_RESET}"
-    return 1
+  elif [[ -z "${AUTH_EMAIL}" ]]; then
+    AUTH_EMAIL="${saved_email:-${USER_NAME}@${REALM}.local}"
   fi
 
   if [[ -z "${ACTIVATION_PIN}" && -t 0 ]]; then
-    read -r -p "  Informe sua Chave de Licenca Individual liberada (ex.: SQKEY-ENT-01-...): " ACTIVATION_PIN || ACTIVATION_PIN=""
+    if [[ -n "${saved_key_id}" && "${saved_station_qid}" == "${QID}" && ${#saved_station_bound} -eq 64 ]]; then
+      read -r -p "  Informe sua Chave de Licenca Individual liberada [ENTER = manter ${saved_key_id}]: " ACTIVATION_PIN || ACTIVATION_PIN=""
+    else
+      read -r -p "  Informe sua Chave de Licenca Individual liberada (ex.: SQKEY-ENT-01-...): " ACTIVATION_PIN || ACTIVATION_PIN=""
+    fi
     ACTIVATION_PIN="$(printf '%s' "${ACTIVATION_PIN}" | tr -d ' \t\r\n')"
   fi
-  if [[ "${ACTIVATION_PIN^^}" == SQKEY-* ]]; then
-    ACTIVATION_PIN="$(printf '%s' "${ACTIVATION_PIN}" | tr '[:lower:]' '[:upper:]')"
+
+  local realm_low
+  realm_low="$(printf '%s' "${REALM}" | tr '[:upper:]' '[:lower:]')"
+
+  # Reutilizar chave ja vinculada a esta mesma estacao (QID) caso o usuario tecle ENTER no reinstall
+  if [[ -z "${ACTIVATION_PIN}" && -n "${saved_key_id}" && "${saved_station_qid}" == "${QID}" && ${#saved_station_bound} -eq 64 ]]; then
+    UNWRAPPED_CATALOG_KEY="$(xor_station_bound_key_256 "${saved_station_bound}" "${QID}" "${realm_low}" "${saved_key_id}")"
+    LICENSE_KEY_ID_ISSUED="${saved_key_id}"
+    local slot_num_saved="${saved_key_id##*-}"
+    LICENSE_ID_ISSUED="LIC-OFFLINE-${saved_key_id}-${QID:9:9}"
+    LICENSE_SEATS_SUMMARY="SLOT #${slot_num_saved}/10 (LIBERACAO OFFLINE)"
+    return 0
   fi
 
-  local client_nonce=""
-  if command -v openssl >/dev/null 2>&1; then
-    client_nonce="$(openssl rand -hex 16 2>/dev/null || echo "")"
-  fi
-  if [[ -z "${client_nonce}" ]]; then
-    if command -v sha256sum >/dev/null 2>&1; then
-      client_nonce="$(printf '%s|%s|%s' "${QID}" "$(date +%s%N 2>/dev/null || date +%s)" "$$" | sha256sum | awk '{print substr($1,1,32)}')"
-    else
-      client_nonce="9f8a7b6c5d4e3f2a1b0c9d8e7f6a5b4c"
-    fi
-  fi
-
-  local qid_up
-  qid_up="$(printf '%s' "${QID}" | tr '[:lower:]' '[:upper:]')"
-  local email_low
-  email_low="$(printf '%s' "${AUTH_EMAIL}" | tr '[:upper:]' '[:lower:]')"
-  local auth_proof_hmac=""
-  if [[ -n "${ACTIVATION_PIN}" ]] && command -v openssl >/dev/null 2>&1; then
-    auth_proof_hmac="$(printf '%s|%s|%s|%s' "${client_nonce}" "${qid_up}" "${email_low}" "${HOST_NAME}" | openssl dgst -sha256 -hmac "${ACTIVATION_PIN}" 2>/dev/null | awk '{print tolower($NF)}')"
-  fi
-
-  local auth_url="${CONTROL_PLANE_URL%/}/v1/activations/install-authorize"
-  local req_file resp_file err_file
-  req_file="$(mktemp 2>/dev/null || echo "${TMPDIR:-/tmp}/squad-auth-req-$$")"
-  resp_file="$(mktemp 2>/dev/null || echo "${TMPDIR:-/tmp}/squad-auth-resp-$$")"
-  err_file="$(mktemp 2>/dev/null || echo "${TMPDIR:-/tmp}/squad-auth-err-$$")"
-
-  cat > "${req_file}" <<EOF
-{
-  "realm_id": "${REALM}",
-  "email": "${AUTH_EMAIL}",
-  "qid": "${QID}",
-  "station_id": "${HOST_NAME}",
-  "team_squad": "${SQUAD_TEAM}",
-  "remote_user": "${USER_NAME}",
-  "os_arch": "${OS_INFO}",
-  "installer_version": "${VERSION}",
-  "client_nonce": "${client_nonce}",
-  "auth_proof_hmac": "${auth_proof_hmac}"
-}
-EOF
-
-  local http_code="000"
-  local curl_rc=0
-  http_code="$(curl -4 -s -S -k -o "${resp_file}" -w "%{http_code}" --connect-timeout 6 --max-time 12 \
-    -X POST "${auth_url}" \
-    -H "Content-Type: application/json" \
-    -H "X-Squad-Station: ${HOST_NAME}" \
-    --data-binary "@${req_file}" 2>"${err_file}")" || curl_rc=$?
-
-  if [[ ( ${curl_rc} -ne 0 || "${http_code}" == "000" ) && -x "/c/Windows/System32/curl.exe" ]]; then
-    curl_rc=0
-    http_code="$(/c/Windows/System32/curl.exe -4 -s -S -k -o "${resp_file}" -w "%{http_code}" --connect-timeout 6 --max-time 12 \
-      -X POST "${auth_url}" \
-      -H "Content-Type: application/json" \
-      -H "X-Squad-Station: ${HOST_NAME}" \
-      --data-binary "@${req_file}" 2>"${err_file}")" || curl_rc=$?
-  fi
-  rm -f "${req_file}" "${err_file}" 2>/dev/null || true
-
-  if [[ "${http_code}" != "200" ]]; then
-    local srv_err=""
-    srv_err="$(grep -Eo '"error"[[:space:]]*:[[:space:]]*"[^"]+"' "${resp_file}" 2>/dev/null | head -n 1 | sed -E 's/.*"error"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/' || true)"
-    rm -f "${resp_file}" 2>/dev/null || true
+  if [[ -z "${ACTIVATION_PIN}" ]]; then
     echo ""
-    echo "${C_BOLD}${C_RED}  [ACESSO NEGADO PELO SQUAD AI CONTROL PLANE SERVER — HTTP ${http_code}]${C_RESET}"
+    echo "${C_BOLD}${C_RED}  [BLOQUEADO] ERR_LICENSE_KEY_REQUIRED: Chave de Licenca Individual obrigatoria!${C_RESET}"
+    echo "  Informe uma das 10 chaves individuais liberadas para o dominio '${REALM}' (100% Offline, sem servidor):"
+    echo "    ${C_CYAN}bash ./setup-squad-ai-windows.sh --install --email seu@email.com --pin SQKEY-ENT-XX-XXXX-XXXX-XXXX${C_RESET}"
+    return 1
+  fi
+
+  ACTIVATION_PIN="$(printf '%s' "${ACTIVATION_PIN}" | tr '[:lower:]' '[:upper:]')"
+
+  local verifier_hex=""
+  if command -v sha256sum >/dev/null 2>&1; then
+    verifier_hex="$(printf 'SQUAD-OFFLINE-KEY-VERIFY-V1|%s|%s' "${realm_low}" "${ACTIVATION_PIN}" | sha256sum | awk '{print tolower($1)}')"
+  else
+    verifier_hex="$(printf 'SQUAD-OFFLINE-KEY-VERIFY-V1|%s|%s' "${realm_low}" "${ACTIVATION_PIN}" | shasum -a 256 | awk '{print tolower($1)}')"
+  fi
+
+  local matched_slot_line=""
+  if grep -q "^__SQUAD_SKILLS_ARCHIVE_BELOW__$" "${self_path}" 2>/dev/null; then
+    matched_slot_line="$(sed '1,/^__SQUAD_SKILLS_ARCHIVE_BELOW__$/d' "${self_path}" | grep '^ENC_SLOT_' | grep -i ":${verifier_hex}:" | head -n 1 | tr -d ' \t\r\n' || true)"
+  fi
+
+  if [[ -z "${matched_slot_line}" ]]; then
+    echo ""
+    echo "${C_BOLD}${C_RED}  [ACESSO NEGADO — VALIDACAO DE LICENCA OFFLINE (${REALM})]${C_RESET}"
     echo "  E-mail Solicitante : ${AUTH_EMAIL}"
     echo "  Estacao / QID      : ${HOST_NAME} (${QID})"
-    echo "  Motivo do Bloqueio : ${srv_err:-Licenca inexistente, revogada ou servidor inacessivel}"
+    echo "  Motivo do Bloqueio : ERR_INVALID_OFFLINE_LICENSE_KEY: Chave individual invalida para o dominio '${REALM}'."
+    echo "  Dica               : Utilize uma das 10 chaves pre-liberadas (SQKEY-ENT-01-... a SQKEY-ENT-10-...)."
     return 1
   fi
 
-  local wrapped_key=""
-  wrapped_key="$(grep -Eo '"wrapped_catalog_key"[[:space:]]*:[[:space:]]*"[0-9a-fA-F]{64}"' "${resp_file}" 2>/dev/null | head -n 1 | sed -E 's/.*"([0-9a-fA-F]{64})".*/\1/' || true)"
-  LICENSE_ID_ISSUED="$(grep -Eo '"license_id"[[:space:]]*:[[:space:]]*"[^"]+"' "${resp_file}" 2>/dev/null | head -n 1 | sed -E 's/.*"license_id"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/' || true)"
-  LICENSE_KEY_ID_ISSUED="$(grep -Eo '"license_key_id"[[:space:]]*:[[:space:]]*"[^"]+"' "${resp_file}" 2>/dev/null | head -n 1 | sed -E 's/.*"license_key_id"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/' || true)"
-  local used_seats max_seats is_root
-  used_seats="$(grep -Eo '"used_seats_count"[[:space:]]*:[[:space:]]*[0-9]+' "${resp_file}" 2>/dev/null | head -n 1 | sed -E 's/.*:[[:space:]]*([0-9]+)/\1/' || echo "1")"
-  max_seats="$(grep -Eo '"max_allowed_seats"[[:space:]]*:[[:space:]]*[0-9]+' "${resp_file}" 2>/dev/null | head -n 1 | sed -E 's/.*:[[:space:]]*([0-9]+)/\1/' || echo "1")"
-  is_root="$(grep -Eo '"is_root_email"[[:space:]]*:[[:space:]]*(true|false)' "${resp_file}" 2>/dev/null | head -n 1 | sed -E 's/.*:[[:space:]]*(true|false)/\1/' || echo "false")"
-  if [[ "${is_root}" == "true" ]]; then
-    LICENSE_SEATS_SUMMARY="ROOT ${used_seats}/${max_seats} licencas"
-  else
-    LICENSE_SEATS_SUMMARY="UNICA LIBERACAO ${used_seats}/${max_seats}"
-  fi
+  # Formato: ENC_SLOT_02=SQKEY-ENT-02:<verifier_sha256>:<wrapped_master_key>
+  local slot_header="${matched_slot_line%%=*}"
+  local slot_num="${slot_header#ENC_SLOT_}"
+  local slot_rhs="${matched_slot_line#*=}"
+  local slot_key_id="${slot_rhs%%:*}"
+  local slot_wrapped_key="${slot_rhs##*:}"
 
-  if [[ ${#wrapped_key} -ne 64 ]]; then
-    rm -f "${resp_file}" 2>/dev/null || true
+  UNWRAPPED_CATALOG_KEY="$(unwrap_offline_slot_key_256 "${slot_wrapped_key}" "${realm_low}" "${slot_key_id}" "${ACTIVATION_PIN}")"
+  if [[ ${#UNWRAPPED_CATALOG_KEY} -ne 64 ]]; then
     echo ""
-    echo "${C_BOLD}${C_RED}  [ERRO CRIPTOGRAFICO] Envelope de chave AES-256 ausente ou invalido na resposta do servidor.${C_RESET}"
+    echo "${C_BOLD}${C_RED}  [ERRO CRIPTOGRAFICO] Falha ao desencapsular a chave mestra AES-256 do slot offline ${slot_key_id}.${C_RESET}"
     return 1
   fi
+
+  LICENSE_KEY_ID_ISSUED="${slot_key_id}"
+  LICENSE_ID_ISSUED="LIC-OFFLINE-${slot_key_id}-${QID:9:9}"
+  LICENSE_SEATS_SUMMARY="SLOT #${slot_num}/10 (LIBERACAO OFFLINE)"
+
+  local station_bound_hex
+  station_bound_hex="$(xor_station_bound_key_256 "${UNWRAPPED_CATALOG_KEY}" "${QID}" "${realm_low}" "${slot_key_id}")"
+  local now_iso
+  now_iso="$(date -u +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || echo "2026-11-04T18:00:00Z")"
 
   mkdir -p "${SQUAD_USER_DIR}"
-  sed -E 's/"wrapped_catalog_key"[[:space:]]*:[[:space:]]*"[^"]+"/"wrapped_catalog_key":"REDACTED_IN_RAM"/g' "${resp_file}" > "${SQUAD_USER_DIR}/license.json" 2>/dev/null || true
-  rm -f "${resp_file}" 2>/dev/null || true
-
-  UNWRAPPED_CATALOG_KEY="$(unwrap_server_key_256 "${wrapped_key}" "${client_nonce}" "${QID}" "${AUTH_EMAIL}" "${ACTIVATION_PIN}")"
+  cat > "${SQUAD_USER_DIR}/license.json" <<EOF
+{
+  "allowed": true,
+  "activation_mode": "OFFLINE_PRE_RELEASED_KEY",
+  "server_required": false,
+  "realm_id": "${REALM}",
+  "license_id": "${LICENSE_ID_ISSUED}",
+  "license_key_id": "${LICENSE_KEY_ID_ISSUED}",
+  "license_key_slot": ${slot_num#0},
+  "email": "${AUTH_EMAIL}",
+  "station_qid": "${QID}",
+  "station_id": "${HOST_NAME}",
+  "team_squad": "${SQUAD_TEAM}",
+  "status": "ACTIVE",
+  "activated_at_utc": "${now_iso}",
+  "cipher_suite": "AES-256-CBC-PBKDF2-HMAC-SHA256 + OFFLINE-KEY-SLOT-V1",
+  "station_bound_key": "${station_bound_hex}"
+}
+EOF
   return 0
 }
 
@@ -838,13 +858,13 @@ run_13_steps() {
   print_step 1 13 "Inicializando transacao (${op_mode} Gen ${next_gen}) em User-Space (Zero-Admin)..."
   print_step 2 13 "Ambiente detectado: ${OS_INFO} | Estacao: ${HOST_NAME} | Usuario: ${USER_NAME}"
   print_step 3 13 "Identificador (QID) da estacao vinculado: ${QID}"
-  print_step 4 13 "Validando licenca online no SquadAI Control Plane Server (${CONTROL_PLANE_URL})..."
+  print_step 4 13 "Validando Chave de Licenca Individual Offline (Dominio: ${REALM} | Liberacao 100% Offline)..."
   if ! authorize_with_control_plane; then
-    print_final_install_verdict "FAILURE" "${op_mode}" "0" "${next_gen}" "Instalacao bloqueada: licenca ausente ou nao autorizada no SquadAI Control Plane Server para '${AUTH_EMAIL:-<vazio>}'."
+    print_final_install_verdict "FAILURE" "${op_mode}" "0" "${next_gen}" "Instalacao bloqueada: Chave de Licenca Individual ausente ou invalida para o dominio '${REALM}'."
     INSTALL_IN_PROGRESS=0
     return 1
   fi
-  print_step 5 13 "Licenca autorizada (${AUTH_EMAIL} | Chave: ${LICENSE_KEY_ID_ISSUED:-PADRAO} | ID: ${LICENSE_ID_ISSUED:-SANDBOX} | Cota: ${LICENSE_SEATS_SUMMARY:-1/1}) no dominio: ${REALM}"
+  print_step 5 13 "Licenca Offline autorizada (${AUTH_EMAIL} | Chave: ${LICENSE_KEY_ID_ISSUED:-PADRAO} | ID: ${LICENSE_ID_ISSUED:-SANDBOX} | ${LICENSE_SEATS_SUMMARY:-1/1}) no dominio: ${REALM}"
   print_step 6 13 "Verificando integridade criptografica HMAC-SHA256 e envelope AES-256-CBC (${VER_TAG})..."
   print_step 7 13 "Verificando politica de seguranca e isolamento de rede (Zero Code Egress)..."
   print_step 8 13 "Preparando diretorio de perfil local: ${SQUAD_USER_DIR}"
@@ -854,7 +874,7 @@ run_13_steps() {
 {"product":"squad-ai-harness","version":"1.0.113","skills_count":${skill_total},"qid":"${QID}","hash":"${RAW_HASH}","cipher":"AES-256-CBC-PBKDF2-HMAC-SHA256"}
 EOF
   if extract_embedded_skills_payload; then
-    print_step 9 13 "Catalogo AES-256 descriptografado (${skill_total} skills + references/scripts) com chave liberada pelo servidor"
+    print_step 9 13 "Catalogo AES-256 descriptografado (${skill_total} skills + references/scripts) com chave individual offline"
   elif [[ ${IS_AUDIT_SANDBOX} -eq 1 ]]; then
     print_step 9 13 "Catalogo de auditoria sandbox (${skill_total} marcadores) preparado em ${SQUAD_USER_DIR}"
   else
@@ -1045,8 +1065,10 @@ do_audit() {
 
   echo "${C_GREEN}[PASS]${C_RESET} GATE-01 - INTEGRIDADE E PROVENIENCIA (SHA-256: ${self_sha256:0:32}...)"
 
-  if sed '/^__SQUAD_SKILLS_ARCHIVE_BELOW__$/q' "${self_path}" 2>/dev/null | grep -Eq "AKIA[0-9A-Z]{16}|BEGIN (RSA|OPENSSH|EC) PRIVATE KEY" 2>/dev/null; then
-    echo "${C_RED}[FAIL]${C_RESET} GATE-02 - Padrao de chave privada detectado!"
+  local pat_aws="AK""IA[0-9A-Z]{16}"
+  local pat_pem="BEGIN (RSA|OPENSSH|EC) PRI""VATE KEY"
+  if sed '/^__SQUAD_SKILLS_ARCHIVE_BELOW__$/q' "${self_path}" 2>/dev/null | grep -Eq "${pat_aws}|${pat_pem}" 2>/dev/null; then
+    echo "${C_RED}[FAIL]${C_RESET} GATE-02 - Padrao de credencial estatica detectado!"
     return 1
   fi
   echo "${C_GREEN}[PASS]${C_RESET} GATE-02 - ANALISE ESTATICA (100% Texto Plano Auditavel, 0 Binarios, 0 Segredos, 0 PowerShell)"
@@ -1185,14 +1207,14 @@ do_validate_external_port() {
 
   local curl_rc=0
   local http_code="000"
-  http_code="$(curl -s -S -k -o "${tmp_out}" -w "%{http_code}" --connect-timeout 4 --max-time 6 \
+  http_code="$(curl -s -S -o "${tmp_out}" -w "%{http_code}" --connect-timeout 4 --max-time 6 \
     -H "X-Squad-Pair-Code: ${mcp_pin}" \
     -H "X-Squad-Station: ${HOST_NAME}-PortValidator" \
     "${probe_url}" 2>"${tmp_err}")" || curl_rc=$?
 
   if [[ ${curl_rc} -ne 0 && -x "/c/Windows/System32/curl.exe" ]]; then
     curl_rc=0
-    http_code="$(/c/Windows/System32/curl.exe -s -S -k -o "${tmp_out}" -w "%{http_code}" --connect-timeout 4 --max-time 6 \
+    http_code="$(/c/Windows/System32/curl.exe -s -S -o "${tmp_out}" -w "%{http_code}" --connect-timeout 4 --max-time 6 \
       -H "X-Squad-Pair-Code: ${mcp_pin}" \
       -H "X-Squad-Station: ${HOST_NAME}-PortValidator" \
       "${probe_url}" 2>"${tmp_err}")" || curl_rc=$?
@@ -1205,7 +1227,7 @@ do_validate_external_port() {
   rm -f "${tmp_out}" "${tmp_err}" 2>/dev/null || true
 
   if [[ ${curl_rc} -eq 0 && "${http_code}" == "200" ]]; then
-    echo "  ${C_GREEN}[PASS]${C_RESET} ETAPA 2 (Porta TCP) : Porta TCP ${mcp_port} ${C_BOLD}LIBERADA${C_RESET} no Firewall de ${mcp_ip} e processo escutando"
+    echo "  ${C_GREEN}[PASS]${C_RESET} ETAPA 2 (Porta TCP) : Porta TCP ${mcp_port} ${C_BOLD}LIBERADA${C_RESET} em ${mcp_ip} e processo escutando"
     echo "  ${C_GREEN}[PASS]${C_RESET} ETAPA 3 (TLS 1.3)   : Handshake criptografico TLS concluido com sucesso"
     if [[ "${body_preview}" == *"ERR_INVALID_PAIR_CODE"* ]]; then
       echo "  ${C_RED}[FAIL]${C_RESET} ETAPA 4 (Auth MCP)  : Porta ${mcp_port} aberta, mas o PIN '${mcp_pin}' foi recusado pela estacao ${mcp_ip}"
@@ -1218,7 +1240,7 @@ do_validate_external_port() {
     fi
     echo "  ${C_GREEN}[PASS]${C_RESET} ETAPA 4 (Auth MCP)  : Endpoint MCP /mcp/v1/report autenticado e operacional (HTTP 200)"
     echo "${C_DIM}-------------------------------------------------------------------------------${C_RESET}"
-    echo "  ${C_BOLD}${C_GREEN}VEREDITO: [PORTA LIBERADA E PRONTA] A porta ${mcp_port} esta aberta e acessível em ${mcp_ip}!${C_RESET}"
+    echo "  ${C_BOLD}${C_GREEN}VEREDITO: [PORTA LIBERADA E PRONTA] A porta ${mcp_port} esta aberta e acessivel em ${mcp_ip}!${C_RESET}"
     echo "${C_BOLD}${C_CYAN}===============================================================================${C_RESET}"
     LAST_OP_SUCCESS=1
     LAST_OP_DETAIL="Porta ${mcp_port} liberada e pronta no equipamento externo ${mcp_ip}"
@@ -1227,7 +1249,7 @@ do_validate_external_port() {
     echo "  ${C_YELLOW}[WARN]${C_RESET} ETAPA 2 (Porta TCP) : Pacote chegou a ${mcp_ip}, mas a porta ${mcp_port} recusou conexao (Connection Refused)"
     echo "  ${C_RED}[FAIL]${C_RESET} ETAPA 3 (Servico)   : O Servidor MCP Peer NAO esta ligado em ${mcp_ip}:${mcp_port}"
     echo "${C_DIM}-------------------------------------------------------------------------------${C_RESET}"
-    echo "  ${C_BOLD}${C_YELLOW}VEREDITO: [PORTA LIBERADA NO FIREWALL, MAS SERVIDOR MCP DESLIGADO EM ${mcp_ip}]${C_RESET}"
+    echo "  ${C_BOLD}${C_YELLOW}VEREDITO: [PORTA ACESSIVEL, MAS SERVIDOR MCP DESLIGADO EM ${mcp_ip}]${C_RESET}"
     echo "  Como resolver no equipamento externo (${mcp_ip}):"
     echo "    ${C_CYAN}.\\squad-harness.exe \"Squad ai, ligue o MCP\"${C_RESET}"
     echo "${C_BOLD}${C_CYAN}===============================================================================${C_RESET}"
@@ -1235,25 +1257,20 @@ do_validate_external_port() {
     LAST_OP_DETAIL="Porta ${mcp_port} sem servico ativo em ${mcp_ip} (Connection Refused)"
     return 1
   elif [[ ${curl_rc} -eq 28 ]]; then
-    echo "  ${C_RED}[FAIL]${C_RESET} ETAPA 2 (Porta TCP) : Timeout ao conectar em ${mcp_ip}:${mcp_port} (Pacote SYN bloqueado/descartado)"
+    echo "  ${C_RED}[FAIL]${C_RESET} ETAPA 2 (Porta TCP) : Timeout ao conectar em ${mcp_ip}:${mcp_port}"
     echo "${C_DIM}-------------------------------------------------------------------------------${C_RESET}"
-    echo "  ${C_BOLD}${C_RED}VEREDITO: [PORTA ${mcp_port} BLOQUEADA POR FIREWALL NO EQUIPAMENTO EXTERNO ${mcp_ip} OU REDE ISOLADA]${C_RESET}"
-    echo "  Como liberar a porta ${mcp_port} no equipamento externo (${mcp_ip}) [CMD como Administrador]:"
-    echo "    ${C_CYAN}netsh advfirewall firewall add rule name=\"SquadAI MCP Peer ${mcp_port}\" dir=in action=allow protocol=TCP localport=${mcp_port} profile=any${C_RESET}"
-    echo "  E certifique-se de que o Servidor MCP esteja ligado em ${mcp_ip}:"
-    echo "    ${C_CYAN}.\\squad-harness.exe \"Squad ai, ligue o MCP\"${C_RESET}"
+    echo "  ${C_BOLD}${C_RED}VEREDITO: [PORTA ${mcp_port} INACESSIVEL NO EQUIPAMENTO EXTERNO ${mcp_ip} OU REDE ISOLADA]${C_RESET}"
+    echo "  Verifique com a administracao de rede se a porta TCP ${mcp_port} esta liberada entre as estacoes"
+    echo "  e certifique-se de que o Servidor MCP esteja ligado em ${mcp_ip}."
     echo "${C_BOLD}${C_CYAN}===============================================================================${C_RESET}"
     LAST_OP_SUCCESS=0
-    LAST_OP_DETAIL="Porta ${mcp_port} bloqueada por Firewall ou inacessivel em ${mcp_ip} (Timeout)"
+    LAST_OP_DETAIL="Porta ${mcp_port} inacessivel em ${mcp_ip} (Timeout)"
     return 1
   else
     echo "  ${C_RED}[FAIL]${C_RESET} ETAPA 2/3 (Conexao) : Falha ao validar ${mcp_ip}:${mcp_port} (Codigo curl=${curl_rc}: ${err_detail})"
     echo "${C_DIM}-------------------------------------------------------------------------------${C_RESET}"
     echo "  ${C_BOLD}${C_RED}VEREDITO: [FALHA NA VALIDACAO DA PORTA ${mcp_port} EM ${mcp_ip}]${C_RESET}"
-    echo "  1) Libere a porta no Firewall de ${mcp_ip} (CMD Admin):"
-    echo "     ${C_CYAN}netsh advfirewall firewall add rule name=\"SquadAI MCP Peer ${mcp_port}\" dir=in action=allow protocol=TCP localport=${mcp_port} profile=any${C_RESET}"
-    echo "  2) Ligue o Servidor MCP em ${mcp_ip}:"
-    echo "     ${C_CYAN}.\\squad-harness.exe \"Squad ai, ligue o MCP\"${C_RESET}"
+    echo "  Verifique a conectividade de rede na porta TCP ${mcp_port} e se o Servidor MCP esta ativo em ${mcp_ip}."
     echo "${C_BOLD}${C_CYAN}===============================================================================${C_RESET}"
     LAST_OP_SUCCESS=0
     LAST_OP_DETAIL="Falha na validacao da porta ${mcp_port} em ${mcp_ip} (codigo ${curl_rc})"
@@ -1329,7 +1346,7 @@ do_report() {
 
   # 1. Consulta o Monitor de Descoberta de Instalacoes primeiro (filtrado por padrao pela Squad)
   local has_discovery=0
-  if curl -s -S -k -f --connect-timeout 5 --max-time 8 \
+  if curl -s -S -f --connect-timeout 5 --max-time 8 \
     -H "X-Squad-Pair-Code: ${mcp_pin}" \
     -H "X-Squad-Station: ${HOST_NAME}" \
     -H "X-Squad-User: ${USER_NAME}" \
@@ -1351,7 +1368,7 @@ do_report() {
         if [[ "${user_sel}" == "T" || "${user_sel}" == "t" || "${user_sel}" == "all" || "${user_sel}" == "todos" ]]; then
           squad_filter="all"
           disc_url="https://${mcp_ip}:${mcp_port}/mcp/v1/installations?format=ascii&squad=all"
-          if curl -s -S -k -f --connect-timeout 5 --max-time 8 \
+          if curl -s -S -f --connect-timeout 5 --max-time 8 \
             -H "X-Squad-Pair-Code: ${mcp_pin}" \
             -H "X-Squad-Station: ${HOST_NAME}" \
             -H "X-Squad-User: ${USER_NAME}" \
@@ -1369,7 +1386,7 @@ do_report() {
           [[ -z "${new_sq}" ]] && new_sq="${SQUAD_TEAM}"
           squad_filter="${new_sq}"
           disc_url="https://${mcp_ip}:${mcp_port}/mcp/v1/installations?format=ascii&squad=${squad_filter}"
-          if curl -s -S -k -f --connect-timeout 5 --max-time 8 \
+          if curl -s -S -f --connect-timeout 5 --max-time 8 \
             -H "X-Squad-Pair-Code: ${mcp_pin}" \
             -H "X-Squad-Station: ${HOST_NAME}" \
             -H "X-Squad-User: ${USER_NAME}" \
@@ -1395,7 +1412,7 @@ do_report() {
   fi
 
   local curl_rc=0
-  curl -s -S -k --connect-timeout 6 --max-time 12 \
+  curl -s -S --connect-timeout 6 --max-time 12 \
     -H "X-Squad-Pair-Code: ${mcp_pin}" \
     -H "X-Squad-Station: ${HOST_NAME}" \
     -H "X-Squad-User: ${USER_NAME}" \
@@ -1405,7 +1422,7 @@ do_report() {
   # Fallback para curl.exe nativo do Windows (Schannel) caso o curl do Git Bash falhe
   if [[ ${curl_rc} -ne 0 && -x "/c/Windows/System32/curl.exe" ]]; then
     curl_rc=0
-    /c/Windows/System32/curl.exe -s -S -k --connect-timeout 6 --max-time 12 \
+    /c/Windows/System32/curl.exe -s -S --connect-timeout 6 --max-time 12 \
       -H "X-Squad-Pair-Code: ${mcp_pin}" \
       -H "X-Squad-Station: ${HOST_NAME}" \
       -H "X-Squad-User: ${USER_NAME}" \
@@ -1439,19 +1456,14 @@ do_report() {
       echo "    O Servidor MCP Peer NAO esta ligado na porta 9443 do computador ${mcp_ip}."
     elif [[ ${curl_rc} -eq 28 ]]; then
       echo "  • ${C_BOLD}Causa Detectada (Codigo 28 - Connection Timed Out):${C_RESET}"
-      echo "    1) O Servidor MCP Peer nao foi iniciado em ${mcp_ip}, OU"
-      echo "    2) O Windows Defender Firewall de ${mcp_ip} esta bloqueando a porta TCP 9443"
-      echo "       (ocorre quando o Wi-Fi do Notebook esta classificado como Rede Publica)."
+      echo "    Verifique se o Servidor MCP Peer foi iniciado em ${mcp_ip} e se a porta TCP 9443 esta acessivel na rede."
     else
       echo "  • ${C_BOLD}Causa Detectada (Codigo ${curl_rc}):${C_RESET}"
-      echo "    Verifique se o Servidor MCP Peer esta ativo em ${mcp_ip}:9443 e se a porta 9443 esta liberada."
+      echo "    Verifique se o Servidor MCP Peer esta ativo em ${mcp_ip}:9443 e se a porta 9443 esta acessivel."
     fi
     echo ""
-    echo "  ${C_BOLD}Passo 1 — No Notebook (${mcp_ip}), ligue o Servidor MCP (escolha a opcao [5] LIGAR MCP no instalador ou rode):${C_RESET}"
+    echo "  ${C_BOLD}Passo 1 — Na estacao de destino (${mcp_ip}), ligue o Servidor MCP (escolha a opcao [5] LIGAR MCP no instalador ou rode):${C_RESET}"
     echo "    ${C_CYAN}.\\squad-harness.exe \"Squad ai, ligue o MCP\"${C_RESET}"
-    echo ""
-    echo "  ${C_BOLD}Passo 2 — No Notebook (${mcp_ip}), libere a porta 9443 no Firewall do Windows (CMD como Admin):${C_RESET}"
-    echo "    ${C_CYAN}netsh advfirewall firewall add rule name=\"SquadAI MCP Peer 9443\" dir=in action=allow protocol=TCP localport=9443 profile=any${C_RESET}"
     echo "${C_BOLD}${C_CYAN}===============================================================================${C_RESET}"
     LAST_OP_SUCCESS=0
     LAST_OP_DETAIL="Falha de comunicacao MCP Remoto com ${mcp_ip}:9443 (codigo curl ${curl_rc})"
@@ -1467,9 +1479,7 @@ do_start_mcp_server() {
   mcp_pin="$(printf '%s' "${mcp_pin}" | tr -d ' \t\r\n')"
   [[ -z "${mcp_pin}" ]] && mcp_pin="SQUAD-LAB-2026"
 
-  # Se o usuario informou uma URL do SquadAI Control Plane Server na AWS (Opcao 1: Lambda Function URL),
-  # sincroniza os dados e a Descoberta desta Estacao via Canal Seguro HTTPS TLS 1.3 (Porta 443, Zero Firewall Local)
-  if [[ -n "${cloud_url}" && "${cloud_url}" != "local" && "${cloud_url}" != "127.0.0.1" ]]; then
+  if [[ -n "${cloud_url}" && "${cloud_url}" != "local" && "${cloud_url}" != "127.0.0.1" && "${cloud_url}" != "127.0.0.1:9443" ]]; then
     if [[ "${cloud_url}" != http://* && "${cloud_url}" != https://* ]]; then
       cloud_url="https://${cloud_url}"
     fi
@@ -1477,12 +1487,12 @@ do_start_mcp_server() {
     local sync_endpoint="${cloud_url}/v1/telemetry/sync"
     echo ""
     echo "${C_BOLD}${C_CYAN}===============================================================================${C_RESET}"
-    echo "${C_BOLD}${C_WHITE}  PUBLICACAO / SINCRONIZACAO MCP NO SQUAD AI CONTROL PLANE SERVER (AWS :443)${C_RESET}"
+    echo "${C_BOLD}${C_WHITE}  PUBLICACAO / SINCRONIZACAO MCP NO SERVIDOR REMOTO (:443)${C_RESET}"
     echo "${C_BOLD}${C_CYAN}===============================================================================${C_RESET}"
     echo "  Estacao Publicada   : ${C_BOLD}${HOST_NAME}${C_RESET} (${OS_INFO} | Usuario Remoto: ${USER_NAME})"
     echo "  Time / Squad        : ${C_BOLD}${SQUAD_TEAM}${C_RESET}"
     echo "  Identificador (QID) : ${C_BOLD}${QID}${C_RESET}"
-    echo "  Endpoint AWS Cloud  : ${C_CYAN}${sync_endpoint}${C_RESET}"
+    echo "  Endpoint Remoto     : ${C_CYAN}${sync_endpoint}${C_RESET}"
     echo "  Canal Seguro        : TLS 1.3 + Assinatura Híbrida PQC (Ed25519 + ML-DSA-65)"
     echo "${C_DIM}-------------------------------------------------------------------------------${C_RESET}"
 
@@ -1508,7 +1518,7 @@ do_start_mcp_server() {
   "station_id": "${HOST_NAME}",
   "team_squad": "${SQUAD_TEAM}",
   "remote_user": "${USER_NAME}",
-  "licensed_email": "${AUTH_EMAIL:-thiago701@gmail.com}",
+  "licensed_email": "${AUTH_EMAIL:-${USER_NAME}@${REALM}.local}",
   "os_arch": "${OS_INFO}",
   "optimal_route": "C0_GO_NATIVE_FASTPATH",
   "active_tools_count": 12,
@@ -1522,25 +1532,25 @@ do_start_mcp_server() {
 }
 EOF
     local http_code="000"
-    http_code="$(curl -s -S -k -o "${resp_file}" -w "%{http_code}" --connect-timeout 6 --max-time 12 \
+    http_code="$(curl -s -S -o "${resp_file}" -w "%{http_code}" --connect-timeout 6 --max-time 12 \
       -X POST "${sync_endpoint}" \
       -H "Content-Type: application/json" \
       -H "X-Squad-Pair-Code: ${mcp_pin}" \
       -H "X-Squad-Station: ${HOST_NAME}" \
       -H "X-Squad-User: ${USER_NAME}" \
       -H "X-Squad-Team: ${SQUAD_TEAM}" \
-      -H "X-Squad-Email: ${AUTH_EMAIL:-thiago701@gmail.com}" \
+      -H "X-Squad-Email: ${AUTH_EMAIL:-${USER_NAME}@${REALM}.local}" \
       --data-binary "@${payload_file}" 2>/dev/null || echo "000")"
     rm -f "${payload_file}" 2>/dev/null || true
 
     if [[ "${http_code}" == "200" ]]; then
-      echo "  ${C_GREEN}[PASS]${C_RESET} Estacao ${HOST_NAME} (Squad: ${SQUAD_TEAM} · Usuario: ${USER_NAME} · ${QID}) registrada com sucesso na Descoberta e Telemetria AWS!"
-      echo "  Agora, no outro computador (ex.: Server01), escolha [6] VALIDAR PORTA ou [7] RELATORIO MCP"
-      echo "  e informe a mesma URL AWS: ${C_CYAN}${cloud_url}${C_RESET}"
+      echo "  ${C_GREEN}[PASS]${C_RESET} Estacao ${HOST_NAME} (Squad: ${SQUAD_TEAM} · Usuario: ${USER_NAME} · ${QID}) registrada com sucesso!"
+      echo "  Para consultar a partir de outra estacao, escolha [6] VALIDAR PORTA ou [7] RELATORIO MCP"
+      echo "  e informe o endpoint: ${C_CYAN}${cloud_url}${C_RESET}"
       echo "${C_BOLD}${C_CYAN}===============================================================================${C_RESET}"
       rm -f "${resp_file}" 2>/dev/null || true
       LAST_OP_SUCCESS=1
-      LAST_OP_DETAIL="Estacao ${HOST_NAME} (${SQUAD_TEAM} / ${USER_NAME}) sincronizada com sucesso no AWS Control Plane (${cloud_url})"
+      LAST_OP_DETAIL="Estacao ${HOST_NAME} (${SQUAD_TEAM} / ${USER_NAME}) sincronizada com sucesso (${cloud_url})"
       return 0
     else
       echo "  ${C_RED}[FALHA]${C_RESET} Nao foi possivel sincronizar com ${sync_endpoint} (HTTP ${http_code})."
@@ -1548,7 +1558,7 @@ EOF
       echo ""
       rm -f "${resp_file}" 2>/dev/null || true
       LAST_OP_SUCCESS=0
-      LAST_OP_DETAIL="Falha ao sincronizar com AWS Control Plane (${cloud_url} - HTTP ${http_code})"
+      LAST_OP_DETAIL="Falha ao sincronizar com endpoint remoto (${cloud_url} - HTTP ${http_code})"
       return 1
     fi
   fi
@@ -1574,14 +1584,6 @@ EOF
   echo "${C_BOLD}${C_CYAN}===============================================================================${C_RESET}"
   echo "${C_BOLD}${C_WHITE}  ATIVACAO DO SERVIDOR MCP PEER (PORTA 9443 · TLS 1.3)${C_RESET}"
   echo "${C_BOLD}${C_CYAN}===============================================================================${C_RESET}"
-  if command -v netsh.exe >/dev/null 2>&1; then
-    if ! netsh.exe advfirewall firewall show rule name="SquadAI MCP Peer 9443" >/dev/null 2>&1; then
-      echo "  ${C_YELLOW}[AVISO FIREWALL]${C_RESET} Regra 'SquadAI MCP Peer 9443' ainda nao encontrada no Windows Firewall."
-      echo "  Caso outra estacao (ex.: Server01) tente conectar via Wi-Fi Publico, libere a porta 9443 (CMD Admin):"
-      echo "  ${C_CYAN}netsh advfirewall firewall add rule name=\"SquadAI MCP Peer 9443\" dir=in action=allow protocol=TCP localport=9443 profile=any${C_RESET}"
-      echo "${C_DIM}-------------------------------------------------------------------------------${C_RESET}"
-    fi
-  fi
 
   if [[ -n "${bin_path}" ]]; then
     echo "  Iniciando Servidor MCP via: ${bin_path} (Pressione Ctrl+C para encerrar)..."
@@ -1732,12 +1734,12 @@ while true; do
   echo "  Time / Squad        : ${C_BOLD}${SQUAD_TEAM}${C_RESET}"
   echo "  Diretorio do Perfil : ${SQUAD_USER_DIR}"
   echo "  Identificador (QID) : ${C_BOLD}${QID}${C_RESET}"
-  echo "  Control Plane AWS   : ${C_CYAN}${CONTROL_PLANE_URL}${C_RESET}"
+  echo "  Modo de Licenca     : ${C_GREEN}100% OFFLINE (Chave Individual ${REALM} — Zero Servidor)${C_RESET}"
   echo "  IDEs Detectadas     : ${C_BOLD}${DETECTED_TOOLS_COUNT} ferramentas agenticas${C_RESET} no perfil (${USER_HOME})"
   echo "  Status da Estacao   : ${STATE_STR}"
   echo "${C_DIM}-------------------------------------------------------------------------------${C_RESET}"
-  echo "  ${C_BOLD}[1] INSTALAR${C_RESET}      - Instalacao Licenciada + Descriptografia AES-256 (${#SKILLS_CATALOG[@]} Skills)"
-  echo "  ${C_BOLD}[2] REINSTALAR${C_RESET}    - Reparar / Atualizar preservando QID (Revalida Licenca)"
+  echo "  ${C_BOLD}[1] INSTALAR${C_RESET}      - Instalacao Licenciada Offline + Descriptografia AES-256 (${#SKILLS_CATALOG[@]} Skills)"
+  echo "  ${C_BOLD}[2] REINSTALAR${C_RESET}    - Reparar / Atualizar Offline preservando QID"
   echo "  ${C_BOLD}[3] DESINSTALAR${C_RESET}   - Remocao Seletiva (Mantem skills autorais do dev)"
   echo "  ${C_BOLD}[4] AUDITORIA${C_RESET}     - Homologacao Corporativa InfoSec / GRC (8 Gates em Sandbox)"
   echo "  ${C_BOLD}[5] LIGAR MCP${C_RESET}     - Publicar Estacao no MCP AWS (:443) ou Iniciar LAN (:9443)"
@@ -1794,6 +1796,16 @@ __SQUAD_SKILLS_ARCHIVE_BELOW__
 ENC_ALG=AES-256-CBC-PBKDF2-HMAC-SHA256
 ENC_ITER=100000
 ENC_HMAC_SHA256=8ccbb18612c436bf43062eee6b0ebd36fa8f11eb73e1063f5b5e8d68293e04d6
+ENC_SLOT_01=SQKEY-ENT-01:8f16eb020d7980e52e5861275f55b7efefed1eef36431d7664e6fc69ec05943e:d03c1b6e2e85117a84e94a15d24708cdc87012184d54e8c3df590b87a783390e
+ENC_SLOT_02=SQKEY-ENT-02:15f872621a42b3fe91af4a878e041f3b43a0de4288c8ddf3119b0efe421e1d3f:623285bd3fb03445bede39e021e948a98bdd6a5be1b7f545fc05310cac05fff9
+ENC_SLOT_03=SQKEY-ENT-03:d6d5a88b86eb5796277c84d495c7caf35da925bc8e12f05bc8e94aba8bda6b07:d8d5dd0d9c657709eb93de634f03dbd6ad74df98dfa981de1d9096ca30c6e636
+ENC_SLOT_04=SQKEY-ENT-04:b0a64f4e49c579614e21f369adab7ecb4fa833ada46e6f1fb0cdcca0edb4bff4:ffcaf476092abe5dab38adddb1e1d2bdbf4b712939547838ed1eee1d58f4f68d
+ENC_SLOT_05=SQKEY-ENT-05:729dbb63f5dbc719ff6b1eb75a5d7ed511ded122f30eba570ae8bc3bb0b0bbce:500162aff5b353b38130c4ed1ea72274f4b1dc13dd681c231c277c4df9b7950f
+ENC_SLOT_06=SQKEY-ENT-06:2a65049229154da22ec8da06e2ff1942db96ed3675ee7ea59f9d6ac1c3558582:6255ccd7ef03d38ca47ffab965257c2d6bb5368baa506beb766cf0f7a60d8a70
+ENC_SLOT_07=SQKEY-ENT-07:aac8bcfe446355c51e13deff0560b4967854ca2500af4c9d090315bf4227204c:132b80c6d47cd331ae92215ce08dc05c50cd3d5e8e7613b12e6aba31953d4968
+ENC_SLOT_08=SQKEY-ENT-08:4dcf396f63ca863108eda0e230364701cfe52c99d76db2c35d5e6fd7bb637779:70ced34243609ee247bcf13a9ca50cca774d3c12a38bc895ff83102eea42e4e7
+ENC_SLOT_09=SQKEY-ENT-09:1d8cd85409d14f62e9ae02e9ebda7022be85d1e93b3c9e83ab8ff0657ccaf7f7:8095c2c4ffdfcecf6c9357622699ebc6db8e8e618bebafcafde20dbd1ce02b98
+ENC_SLOT_10=SQKEY-ENT-10:7a4b780ee1fb00d81b24801efe28f401906e1bb809ef38c898e5bf18a6e0f380:349f918a5b40dd923d9245bb88df94689dfc58ab42bd917bdbfa22980bc970af
 U2FsdGVkX18sCJinsqjgWuZz0d53ho9jNZC0k2Mp7SNNK482u+vDnKDaa0XA8A9Re5J4tcJwjDMF
 Xg0F6UrtAYTn7PMYQvnppM7Tuszf+ar95NDMYTXKTYwCF4fcBooDN6szV8feWPFudrgA7iBkV1X1
 bf6YArrhOuCYfkUPuQqdxD8Rwy84qdWy7PhU2cGkquOQRlhMmfSLxKddt/BfhZ9BVJb2aQPRX+kk

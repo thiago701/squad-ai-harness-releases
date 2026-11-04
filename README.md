@@ -202,11 +202,6 @@ Antes de instalar ou distribuir internamente, você ou a equipe de Segurança da
 
 ### Conferir o Checksum `SHA-256`
 
-No **Windows CMD (`cmd.exe`)**:
-
-    certutil -hashfile setup-squad-ai-windows.sh SHA256
-    type manifests\releases\SHA256SUMS.txt
-
 No **Git Bash / Linux / macOS**:
 
     sha256sum setup-squad-ai-windows.sh setup-squad-ai-linux.sh setup-squad-ai-macos.sh

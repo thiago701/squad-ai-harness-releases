@@ -50,7 +50,7 @@
   {
     "id": "SCENARIO-G",
     "title": "Cenário G — Tentativa sintética de exfiltração de dados sensíveis e credenciais",
-    "attack_simulated": "Transmitir payload contendo documento_confidencial / AKIA secret key",
+    "attack_simulated": "Transmitir payload contendo dado restrito ou credencial sintetica de teste",
     "blocked_or_passed": true,
     "expected_result": "Bloqueado pela inspeção DLP de saída (0 bytes transmitidos)",
     "actual_code": "ERR_CORPORATE_DATA_EXFILTRATION_PROHIBITED: bloqueio DLP contra envio de segredos, dados sensíveis ou código restrito"

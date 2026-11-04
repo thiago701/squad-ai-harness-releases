@@ -18,19 +18,19 @@
   "subject": [
     {
       "digest": {
-        "sha256": "b656d51fc4e3b15c0f6aaccf74ebe00c74d853f06332c03da8738d3496d46b65"
+        "sha256": "c2fcfb6791281d8c81cd3463e0658e37ae3574e583cac74174b6b1654933e6d3"
       },
       "name": "setup-squad-ai-windows.sh"
     },
     {
       "digest": {
-        "sha256": "b656d51fc4e3b15c0f6aaccf74ebe00c74d853f06332c03da8738d3496d46b65"
+        "sha256": "c2fcfb6791281d8c81cd3463e0658e37ae3574e583cac74174b6b1654933e6d3"
       },
       "name": "setup-squad-ai-linux.sh"
     },
     {
       "digest": {
-        "sha256": "b656d51fc4e3b15c0f6aaccf74ebe00c74d853f06332c03da8738d3496d46b65"
+        "sha256": "c2fcfb6791281d8c81cd3463e0658e37ae3574e583cac74174b6b1654933e6d3"
       },
       "name": "setup-squad-ai-macos.sh"
     },

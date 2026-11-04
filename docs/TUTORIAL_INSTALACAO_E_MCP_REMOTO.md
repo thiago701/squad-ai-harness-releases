@@ -68,10 +68,7 @@ Os scripts instaladores (**`setup-squad-ai.sh`**, **`setup-squad-ai-windows.sh`*
    - **Windows 10 / 11 (Git Bash):** **`setup-squad-ai-windows.sh`** (`4,04 MB`)
    - **Linux (Ubuntu / Debian / Mint / WSL2 / Fedora):** **`setup-squad-ai-linux.sh`** (`4,04 MB`) ou **`squad-ai-harness_1.0.113_amd64.deb`**
    - **macOS (Apple Silicon M1–M4 & Intel):** **`setup-squad-ai-macos.sh`** (`4,04 MB`)
-3. *(Opcional)* Confira a integridade do arquivo com o `SHA256SUMS.txt` publicado na Release:
-   ```cmd
-   certutil -hashfile setup-squad-ai-windows.sh SHA256
-   ```
+3. *(Opcional)* Confira a integridade do arquivo com o `SHA256SUMS.txt` publicado na Release (via Git Bash / Terminal):
    ```bash
    sha256sum setup-squad-ai-windows.sh
    ```
@@ -171,7 +168,7 @@ Na **`Estação B`** (onde você executou `setup-squad-ai-windows.sh`), siga o f
 
 ### Maneira 1 — Pelo próprio Assistente `setup-squad-ai-windows.sh`
 
-1. Primeiro (opcional), escolha **`[6] VALIDAR PORTA`** para testar em 4 etapas se o endpoint da `Estação A` (porta `9443` LAN) ou do **`SquadAI Control Plane Server` na AWS** (`https://<id>.lambda-url.<region>.on.aws`, porta `443` sem necessidade de abrir Firewall local) está acessível e com Canal Seguro `TLS 1.3 + PQC` operacional.
+1. Primeiro (opcional), escolha **`[6] VALIDAR PORTA`** para testar em 4 etapas se o endpoint da `Estação A` (porta `9443` LAN) ou do servidor corporativo (porta `443`) está acessível e com Canal Seguro `TLS 1.3 + PQC` operacional.
 2. Em seguida, escolha a opção **`[7] RELATORIO MCP`** no menu interativo:
    ```text
    IP da Estacao ou URL AWS Control Plane (Padrao = 127.0.0.1): <IP-DA-ESTACAO-A-OU-URL-AWS>
@@ -187,7 +184,7 @@ Na **`Estação B`** (onde você executou `setup-squad-ai-windows.sh`), siga o f
 
 - **Em qualquer estação (usando `curl` no Git Bash ou `curl.exe` no CMD):**
   ```bash
-  curl -s -S -k -H "X-Squad-Pair-Code: SQUAD-LAB-2026" -H "X-Squad-Station: Estacao-Cliente" https://<IP-DA-ESTACAO-A>:9443/mcp/v1/report
+  curl -s -S -H "X-Squad-Pair-Code: SQUAD-LAB-2026" -H "X-Squad-Station: Estacao-Cliente" https://<IP-DA-ESTACAO-A>:9443/mcp/v1/report
   ```
 - **Em estações com o binário `squad-harness.exe` (pareamento mútuo `mTLS` completo):**
   ```cmd
