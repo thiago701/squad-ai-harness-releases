@@ -83,17 +83,17 @@ Os scripts instaladores (**`setup-squad-ai.sh`**, **`setup-squad-ai-windows.sh`*
    # Modo Interativo (Menu [1] INSTALAR, [2] REINSTALAR, [3] DESINSTALAR, [4] AUDITORIA, [5] LIGAR MCP, [6] VALIDAR PORTA, [7] RELATORIO MCP):
    bash ./setup-squad-ai-windows.sh
 
-   # Instalação Licenciada das 113 Skills (valida e-mail + prova de posse anti-impersonação HMAC-SHA256 no SquadAI Control Plane Server e descriptografa o catálogo AES-256):
-   bash ./setup-squad-ai-windows.sh --install --email <SEU_EMAIL_LICENCIADO> --pin <SUA_CHAVE_SECRETA>
+   # Instalação Licenciada 100% Offline das 113 Skills (valida a chave de licença individual e descriptografa o catálogo AES-256):
+   bash ./setup-squad-ai-windows.sh --install --pin <CHAVE_LICENCA_INDIVIDUAL>
 
    # Reinstalar / Atualizar preservando o Identificador (QID):
-   bash ./setup-squad-ai-windows.sh --reinstall --email <SEU_EMAIL_LICENCIADO> --pin <SUA_CHAVE_SECRETA>
+   bash ./setup-squad-ai-windows.sh --reinstall --pin <CHAVE_LICENCA_INDIVIDUAL>
 
    # Auditoria de Homologação Corporativa InfoSec/GRC (8 Gates em Sandbox):
    bash ./setup-squad-ai-windows.sh --audit
 
-   # Fluxo MCP AWS (Porta 443 HTTPS, sem abrir Firewall local): [5] Publicar MCP -> [6] Validar Canal -> [7] Relatório + Descoberta:
-   bash ./setup-squad-ai-windows.sh --sync-cloud SQUAD-LAB-2026
+   # Consultar status de MCP / Porta / Relatório MCP:
+   bash ./setup-squad-ai-windows.sh --serve-mcp
    bash ./setup-squad-ai-windows.sh --check-port
    bash ./setup-squad-ai-windows.sh --report-mcp
 
@@ -143,7 +143,7 @@ squad-harness.exe "Squad ai, ligue o MCP"
 *(Ou execute a forma explícita parametrizando o nome lógico da estação e o código de pareamento desejado):*
 
 ```cmd
-squad-harness.exe peer serve --station <NOME-DA-ESTACAO-A> --addr 0.0.0.0:9443 --pair-code SQUAD-LAB-2026
+squad-harness.exe peer serve --station <NOME-DA-ESTACAO-A> --addr 127.0.0.1:9443 --pair-code <CODIGO-PAREAMENTO>
 ```
 
 2. O terminal da `Estação A` confirmará que o servidor MCP `TLS 1.3` está ativo na porta `9443`:
@@ -152,8 +152,8 @@ squad-harness.exe peer serve --station <NOME-DA-ESTACAO-A> --addr 0.0.0.0:9443 -
 ======================================================================
   SQUAD-AI HARNESS — SERVIDOR MCP PEER ATIVO (TLS 1.3 mTLS)
 ======================================================================
-  Endpoint Escuta    : https://[::]:9443/mcp/v1/stream
-  Código Pareamento  : SQUAD-LAB-2026
+  Endpoint Escuta    : https://127.0.0.1:9443/mcp/v1/stream
+  Código Pareamento  : <CODIGO-PAREAMENTO>
   Tools Publicadas   : squad_usage_report, diagnostics.remote, peers.health
 ======================================================================
 ```
@@ -184,15 +184,15 @@ Na **`Estação B`** (onde você executou `setup-squad-ai-windows.sh`), siga o f
 
 - **Em qualquer estação (usando `curl` no Git Bash ou `curl.exe` no CMD):**
   ```bash
-  curl -s -S -H "X-Squad-Pair-Code: SQUAD-LAB-2026" -H "X-Squad-Station: Estacao-Cliente" https://<IP-DA-ESTACAO-A>:9443/mcp/v1/report
+  curl -s -S -H "X-Squad-Pair-Code: <CODIGO-PAREAMENTO>" -H "X-Squad-Station: Estacao-Cliente" https://<IP-DA-ESTACAO-A>:9443/mcp/v1/report
   ```
 - **Em estações com o binário `squad-harness.exe` (pareamento mútuo `mTLS` completo):**
   ```cmd
   :: Obter o Relatório Executivo de Uso (QID):
-  squad-harness.exe peer query --station <NOME-ESTACAO-B> --remote https://<IP-DA-ESTACAO-A>:9443 --pair-code SQUAD-LAB-2026 --tool squad_usage_report
+  squad-harness.exe peer query --station <NOME-ESTACAO-B> --remote https://<IP-DA-ESTACAO-A>:9443 --pair-code <CODIGO-PAREAMENTO> --tool squad_usage_report
 
   :: Obter o Relatório de Diagnóstico de Hardware e GPU:
-  squad-harness.exe peer query --station <NOME-ESTACAO-B> --remote https://<IP-DA-ESTACAO-A>:9443 --pair-code SQUAD-LAB-2026 --tool diagnostics.remote
+  squad-harness.exe peer query --station <NOME-ESTACAO-B> --remote https://<IP-DA-ESTACAO-A>:9443 --pair-code <CODIGO-PAREAMENTO> --tool diagnostics.remote
   ```
 
 ---
@@ -202,5 +202,5 @@ Na **`Estação B`** (onde você executou `setup-squad-ai-windows.sh`), siga o f
 | Sintoma | Causa Provável | Solução Recomendada |
 |---|---|---|
 | Timeout ao conectar em `https://<IP-DA-ESTACAO-A>:9443` | Os computadores estão em sub-redes isoladas (Wi-Fi corporativo/visitante com *AP Isolation*) ou o Firewall local bloqueou a porta `9443`. | Na `Estação A`, permita o acesso para **Redes Privadas** quando o Windows Defender Firewall solicitar, ou utilize uma rede overlay autenticada (**Tailscale** / túnel SSH local `ssh -L 9443:127.0.0.1:9443 usuario@<IP-DA-ESTACAO-A>`). |
-| `ERR_INVALID_PAIR_CODE` | O código `--pair-code` informado na `Estação B` não coincide com o código iniciado na `Estação A`. | Certifique-se de utilizar o mesmo código de pareamento em ambas as pontas (padrão: `SQUAD-LAB-2026`). |
+| `ERR_INVALID_PAIR_CODE` | O código `--pair-code` informado na `Estação B` não coincide com o código iniciado na `Estação A`. | Certifique-se de utilizar o mesmo código de pareamento em ambas as pontas (`<CODIGO-PAREAMENTO>`). |
 | Bloqueio corporativo de PowerShell (`.ps1` / `ExecutionPolicy`) | Estações corporativas frequentemente bloqueiam a execução de scripts `.ps1` baixados da internet (`Zone.Identifier`). | O instalador `v1.0.113` **não utiliza PowerShell nem `.zip`**: execute diretamente **`bash ./setup-squad-ai-windows.sh`** no Git Bash. |

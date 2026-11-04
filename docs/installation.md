@@ -19,7 +19,7 @@ Os instaladores `setup-squad-ai.sh`, `setup-squad-ai-windows.sh`, `setup-squad-a
    - Instalar (113 skills; cria `claude`, `codex`, `gemini` e `copilot` no `$HOME` por padrão): `bash ./setup-squad-ai-windows.sh --install`
    - Reinstalar/Reparar: `bash ./setup-squad-ai-windows.sh --reinstall`
    - Auditoria de Homologação (8 Gates): `bash ./setup-squad-ai-windows.sh --audit`
-   - Ligar MCP / Validar Porta / Consultar Relatório MCP: `bash ./setup-squad-ai-windows.sh --serve-mcp`, `--check-port <IP> 9443`, `--report-mcp <IP> SQUAD-LAB-2026`
+   - Ligar MCP / Validar Porta / Consultar Relatório MCP: `bash ./setup-squad-ai-windows.sh --serve-mcp`, `--check-port`, `--report-mcp`
    - Desinstalação Seletiva (remove apenas skills da SquadAI, preservando as skills do dev): `bash ./setup-squad-ai-windows.sh --uninstall`
 4. Ao final da execução, o instalador exibe um banner explícito de confirmação **`[SUCESSO]`** ou **`[FALHA]`**.
 
