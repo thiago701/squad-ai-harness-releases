@@ -1,0 +1,4 @@
+e0d9f31451da3e4f8dca52430343f69cac2e514e2347c0ab604076095a087aff  setup-squad-ai.sh
+e0d9f31451da3e4f8dca52430343f69cac2e514e2347c0ab604076095a087aff  setup-squad-ai-windows.sh
+e0d9f31451da3e4f8dca52430343f69cac2e514e2347c0ab604076095a087aff  setup-squad-ai-linux.sh
+e0d9f31451da3e4f8dca52430343f69cac2e514e2347c0ab604076095a087aff  setup-squad-ai-macos.sh
