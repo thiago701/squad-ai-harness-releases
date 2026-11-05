@@ -18,25 +18,25 @@
   "subject": [
     {
       "digest": {
-        "sha256": "6300cdab09def01c7732cbec2e94cc482d9630d98d63012cdf40f64b80ba0786"
+        "sha256": "3f67d7ef3c27408eefc21c3caf42faac7e3d7f441e91f2a950e140df721b21a5"
       },
       "name": "setup-squad-ai-windows.sh"
     },
     {
       "digest": {
-        "sha256": "6300cdab09def01c7732cbec2e94cc482d9630d98d63012cdf40f64b80ba0786"
+        "sha256": "3f67d7ef3c27408eefc21c3caf42faac7e3d7f441e91f2a950e140df721b21a5"
       },
       "name": "setup-squad-ai-linux.sh"
     },
     {
       "digest": {
-        "sha256": "6300cdab09def01c7732cbec2e94cc482d9630d98d63012cdf40f64b80ba0786"
+        "sha256": "3f67d7ef3c27408eefc21c3caf42faac7e3d7f441e91f2a950e140df721b21a5"
       },
       "name": "setup-squad-ai-macos.sh"
     },
     {
       "digest": {
-        "sha256": "8117a9e6da413e4d6c227aa98083dd8e27c31bffb31ba671555b341d219cc465"
+        "sha256": "76b64d92b128d61178dfef4c035324f9a8716f980ae48b051e8df7bf35b8abdf"
       },
       "name": "squad-ai-harness_1.0.113_amd64.deb"
     }

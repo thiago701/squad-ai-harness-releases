@@ -5,9 +5,9 @@
   "go_toolchain": "go1.24.3",
   "cgo_enabled": false,
   "external_deps_count": 0,
-  "source_tree_digest_sha256": "dfbaeae9390e0a97093b545914e71cc3ae6543b36f9629da4888237f94df624b",
-  "build_digest_sha256": "2f00e33f48c1a49a646898770101ba6b079951a819bd6e6dbd9ffd3a82cdd209",
-  "generated_at": "2026-11-04T14:38:44Z",
+  "source_tree_digest_sha256": "c901107183d88323db9d8d36d0ca2229f8585f64b7e66c4e4bc04e41b5026cbb",
+  "build_digest_sha256": "e45b0e250c5b1417e37b452874ae806ef951b00b716b6492c09d7e9b3316e461",
+  "generated_at": "2026-11-05T00:31:35Z",
   "telemetry": {
     "enabled": false,
     "local_audit_only": true,
@@ -52,7 +52,7 @@
     "12. Atualizações: desativadas automaticamente; exigem pacote assinado e homologado pela organização."
   ],
   "skills_count": 113,
-  "skills_catalog_sha256": "25eb67eaa0f7be3e415256ae84af33c6f84c4799de1e912ac307da3e16d3e47f",
+  "skills_catalog_sha256": "30855304ce226dffc4a13a704d8ab702797bb52261f3d58367614c82497321a5",
   "approved_mcp_tools": [
     "squad_route_skill",
     "squad_sekg_query",
@@ -95,8 +95,8 @@
       "corporate-bedrock.internal.corp",
       "git.internal.corp"
     ],
-    "approved_release_digest_sha256": "2f00e33f48c1a49a646898770101ba6b079951a819bd6e6dbd9ffd3a82cdd209",
+    "approved_release_digest_sha256": "e45b0e250c5b1417e37b452874ae806ef951b00b716b6492c09d7e9b3316e461",
     "licensing_mode": "CORPORATE_OFFLINE_SIGNED_NO_PERSONAL_AWS"
   },
-  "pqc_signature_b64": "gvTduZFyJ9UsunC-a7W-wgkrf_9_pvmyKraLBlJ1weLwQdPkN6iJbCqUaZlJgY82ty8HZ8pLkZvn-IiranK1Cd3H58fS1s6ME_MIPr9vln2kkNTrIep18Ef6Dzpe9fTkKTUvACEJOQAgW38AdtxyAJBOXgAtkG8Axp8ZAJTWQgA"
+  "pqc_signature_b64": "mNc1xgG3577khj4rphLrs7i53-olS7c704LBtYDkSA9hUMIPegOMbc7Sp0IiSNdvCDsz2TaeOFJENooKKqLeDeJz0u-z-NtKp7yTJ8GsxMYve0PWH_wdA-B1sXcT92ursCYZAFitbwC8IlEApzl9AHKmaQC5MyYAT9JyAPN_BgA"
 }

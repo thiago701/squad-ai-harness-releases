@@ -138,21 +138,16 @@ Em redes corporativas onde o proxy/firewall bloqueia downloads de `releases/down
 ### Opção B — Baixando Apenas o Arquivo Único `.sh` da Aba Releases (Sem Clonar Repositório)
 
 1. Acesse a aba **[Releases](../../releases/latest)** (ou clique no arquivo direto na raiz deste repositório) e baixe o instalador do seu Sistema Operacional (`setup-squad-ai-windows.sh`, `setup-squad-ai-linux.sh` ou `setup-squad-ai-macos.sh`).
-2. Abra o **Git Bash / Terminal** e execute o Setup Wizard interativo (`[1] INSTALAR`, `[2] REINSTALAR`, `[3] DESINSTALAR`, `[4] AUDITORIA`, `[5] LIGAR MCP`, `[6] VALIDAR PORTA`, `[7] RELATORIO MCP`) ou passe a flag diretamente:
+2. Abra o **Git Bash / Terminal** e execute o Setup Wizard interativo (`[1] INSTALAR`, `[2] REINSTALAR`, `[3] DESINSTALAR`, `[4] AUDITORIA`) ou passe a flag diretamente:
 
-       # Instalar (valida a chave de licença individual 100% offline e descriptografa as 113 skills)
-       bash ./setup-squad-ai-windows.sh --install --pin <CHAVE_LICENCA_INDIVIDUAL>
+       # Instalar (113 skills + configuração interativa/automática de aceleração complementar NPU e GPU)
+       bash ./setup-squad-ai-windows.sh --install
 
        # Reinstalar / Reparar preservando o Identificador (QID) da estação
-       bash ./setup-squad-ai-windows.sh --reinstall --pin <CHAVE_LICENCA_INDIVIDUAL>
+       bash ./setup-squad-ai-windows.sh --reinstall
 
        # Auditoria de Homologação Corporativa (8 Gates + Laudo JSON em Sandbox)
        bash ./setup-squad-ai-windows.sh --audit
-
-       # Verificar status do Servidor MCP / Porta / Relatório MCP
-       bash ./setup-squad-ai-windows.sh --serve-mcp
-       bash ./setup-squad-ai-windows.sh --check-port
-       bash ./setup-squad-ai-windows.sh --report-mcp
 
        # Desinstalação Seletiva (remove apenas as skills da SquadAI, mantendo as demais skills do dev)
        bash ./setup-squad-ai-windows.sh --uninstall
