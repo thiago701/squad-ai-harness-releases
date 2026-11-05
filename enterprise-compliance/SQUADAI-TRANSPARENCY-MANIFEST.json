@@ -7,7 +7,7 @@
   "external_deps_count": 0,
   "source_tree_digest_sha256": "520707f44137e8da9e4e240f34bf63b12826f481d357cf98e0c85bab146a5a31",
   "build_digest_sha256": "e6e9ef325584fd118dfe96bb8bcdffc5095a4adcd1d43b558d88896d2526f475",
-  "generated_at": "2026-11-05T15:42:51Z",
+  "generated_at": "2026-11-05T15:59:51Z",
   "telemetry": {
     "enabled": false,
     "local_audit_only": true,
@@ -52,7 +52,7 @@
     "12. Atualizações: desativadas automaticamente; exigem pacote assinado e homologado pela organização."
   ],
   "skills_count": 113,
-  "skills_catalog_sha256": "e3251b87fe31e976c997bf9be907c31a8726285a37e1d78419c74fa555b4eca5",
+  "skills_catalog_sha256": "e25466ab7160071202c951dcb2a22be09be4a6cca530d153cc7bc0e8488b620c",
   "approved_mcp_tools": [
     "squad_route_skill",
     "squad_sekg_query",
@@ -98,5 +98,5 @@
     "approved_release_digest_sha256": "e6e9ef325584fd118dfe96bb8bcdffc5095a4adcd1d43b558d88896d2526f475",
     "licensing_mode": "CORPORATE_OFFLINE_SIGNED_NO_PERSONAL_AWS"
   },
-  "pqc_signature_b64": "_9RiwJr-VICvNJyfXBmHmCn2UhHHeL7wWwMZbhOxelxr1EhhkzyvM8SjHn6HtCSnUxmsLPGAAto_DJ-29pThASQe4Emr1SO6zOP9sk4GaTj1eEPWTh7N14y-GRyA5jpP9GlGAIacAgDG-xgA4UgNAIg-ZwBIZHwAwdR-AJXVIgA"
+  "pqc_signature_b64": "sNoif1gYjdLyvBLqvJsXNrw5UXuTFCqBCyxzC1Gd-hpXfPwCz60k89or3Ou6CGJ2gS_0LJK38kz9nyIFcUBPAF7qxu-w7ts3ER9TrlJcTdFkEKlVFC4zYynA7osfsIqG5rhmAB3lNAB5oVsA9Gs5ALIeTQBYeSIAkgp4AOtYawA"
 }

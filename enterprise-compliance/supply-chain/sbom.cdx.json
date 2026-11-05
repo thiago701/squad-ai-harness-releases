@@ -5,7 +5,7 @@
   "metadata": {
     "cgo_enabled": false,
     "scope_coverage": "Inclui runtime Go 1.24.3, 0 deps externas, 8 tools MCP e 109 skills canônicas.",
-    "timestamp": "2026-11-05T15:42:51Z",
+    "timestamp": "2026-11-05T15:59:51Z",
     "zero_external_dependencies": true
   },
   "components": [
@@ -28,7 +28,7 @@
     {
       "license": "Apache-2.0",
       "name": "squad-ai-canonical-skills-catalog",
-      "sha256": "e3251b87fe31e976c997bf9be907c31a8726285a37e1d78419c74fa555b4eca5",
+      "sha256": "e25466ab7160071202c951dcb2a22be09be4a6cca530d153cc7bc0e8488b620c",
       "type": "library",
       "version": "1.0.113"
     }
