@@ -11,15 +11,15 @@
       "size_bytes": 4317637,
       "compiler_flags": "CGO_ENABLED=0 -trimpath -ldflags='-s -w -buildid='",
       "packer_used": "NONE (Zero-UPX Corporate EDR Safe)",
-      "signed_at_utc": "2026-11-05T15:59:50Z",
+      "signed_at_utc": "2026-11-05T19:21:23Z",
       "signer_public_key": {
-        "key_id": "official-release-signer-f249999391e5349b",
+        "key_id": "official-release-signer-8728be3d94920270",
         "algorithm": "HYBRID-ED25519-ML-DSA-65-FIPS204",
-        "ed25519_public_b64": "_fyUQiX_vB0mv_1W5ifKTFSkqVb_OhxEu9kZJ6fiLCA",
-        "mldsa65_public_b64": "4fq1AETUpbk-xJdMXBjwu4WSvwtGvtP8IWWnoBu7J5KAi1gARgtRAE3HVQBaqToAAYFRABQGBQDig08AgYtYAKOFKACUrisAW6k6ANwEBQDo9DgA_Z58AB_8egC3400A8coAAOgWHwC4CQoAMvFLAP-efADCNWwAhTYiAIN5LACRW3wAAIFRAH3tXgA_d10AATcxAKKFKACEeSwAW6k6AFfMuRJkPoHQQ1PwMwSYMXgkH0DPXf66Tz7NB8jHPFUu",
-        "created_at": "2026-11-05T15:59:50Z"
+        "ed25519_public_b64": "GmtWxIRYrcZU-qXlS6kNNtIyziftobxxuyB-73zXMVY",
+        "mldsa65_public_b64": "JT9YpymND4xNp1g9vETAVOZ0Y8tPGx_U--F1snV424u07hAAVdx8AHn0NwCCPFYAeboyAJumUAAbpHEArTsEAERQSgDx6G8AlcArAD5NWQD3bHwALgFFAFl3CABGUEoATfsfAG_YAACipiwAkDNNAJiAIgC07hAAE4wyAB0CCACFPFYAoaYsAKgZVAAapHEA29AOADTEFwDx6G8AcNgAAGvoiKG8rRFtDtuDwp0GK6GP3gqgVKAdZXs5azBcXO-7",
+        "created_at": "2026-11-05T19:21:23Z"
       },
-      "hybrid_signature_b64": "bTYlrL8dEH8AseNiEGxya_irQYt0TLMxx9o6Qc52Sg-Sv4g6P3rTeJMOYzFSCXovpBCtgd4TsBp3-TzMfKPJBFF9yV9IOGouPjJpcs0QBwX8vJrXwRP_9aNXuS-Cp7u6j74aALF5EgBKV3kA1HJ1APDXcQCMO08AO3pwAMAYRgA"
+      "hybrid_signature_b64": "YqjF-waNxRiAQcPghaUZ10ewdppKLXi-jkmNEq9h9vw-fT438t09IedH8GXgao2h-tJqXdkF9hWjjYA5OnPRCuLtaOyfKC5Vnr4EcZ_0eFW2lQWZSxdb7PiKtPgaLUvchhd-AD6YOQD-LWcAfUA3AGQ_FACtfDoABp9JANn9DgA"
     },
     {
       "product": "squad-ai-harness",
@@ -32,15 +32,15 @@
       "size_bytes": 4317637,
       "compiler_flags": "CGO_ENABLED=0 -trimpath -ldflags='-s -w -buildid='",
       "packer_used": "NONE (Zero-UPX Corporate EDR Safe)",
-      "signed_at_utc": "2026-11-05T15:59:50Z",
+      "signed_at_utc": "2026-11-05T19:21:23Z",
       "signer_public_key": {
-        "key_id": "official-release-signer-f249999391e5349b",
+        "key_id": "official-release-signer-8728be3d94920270",
         "algorithm": "HYBRID-ED25519-ML-DSA-65-FIPS204",
-        "ed25519_public_b64": "_fyUQiX_vB0mv_1W5ifKTFSkqVb_OhxEu9kZJ6fiLCA",
-        "mldsa65_public_b64": "4fq1AETUpbk-xJdMXBjwu4WSvwtGvtP8IWWnoBu7J5KAi1gARgtRAE3HVQBaqToAAYFRABQGBQDig08AgYtYAKOFKACUrisAW6k6ANwEBQDo9DgA_Z58AB_8egC3400A8coAAOgWHwC4CQoAMvFLAP-efADCNWwAhTYiAIN5LACRW3wAAIFRAH3tXgA_d10AATcxAKKFKACEeSwAW6k6AFfMuRJkPoHQQ1PwMwSYMXgkH0DPXf66Tz7NB8jHPFUu",
-        "created_at": "2026-11-05T15:59:50Z"
+        "ed25519_public_b64": "GmtWxIRYrcZU-qXlS6kNNtIyziftobxxuyB-73zXMVY",
+        "mldsa65_public_b64": "JT9YpymND4xNp1g9vETAVOZ0Y8tPGx_U--F1snV424u07hAAVdx8AHn0NwCCPFYAeboyAJumUAAbpHEArTsEAERQSgDx6G8AlcArAD5NWQD3bHwALgFFAFl3CABGUEoATfsfAG_YAACipiwAkDNNAJiAIgC07hAAE4wyAB0CCACFPFYAoaYsAKgZVAAapHEA29AOADTEFwDx6G8AcNgAAGvoiKG8rRFtDtuDwp0GK6GP3gqgVKAdZXs5azBcXO-7",
+        "created_at": "2026-11-05T19:21:23Z"
       },
-      "hybrid_signature_b64": "KPBdoEEBsNlccm45O6E2afIJQpyKfYF9H0UqGj09pqfUidTBa7aPZnrsHZYNqMiNnF4qXbiUcheeLK3wWKpxCXtPqH-nWY_w-pAeP_2xDXrgQd_cgxkExx3ir0ek8URsDZ41AMvdegBd8UwARGcLACbeQgAi-18AMsArAAiSSAA"
+      "hybrid_signature_b64": "Z36KHhVyxhnzCcnOJFt4P_a2z-FdckCRCxh2-d4vfcQdEEJ05eqesmugAOzZYAl5rFaovppJncphYugbzJ9NBtJTV36cIGLm3Bxd2X-DulP1ot48HorGSIvbBrHK2sXWVqAwAGJtHQA62X4AosZAAPOxCgDu-xQAZZweAA6GCwA"
     },
     {
       "product": "squad-ai-harness",
@@ -53,15 +53,15 @@
       "size_bytes": 4317637,
       "compiler_flags": "CGO_ENABLED=0 -trimpath -ldflags='-s -w -buildid='",
       "packer_used": "NONE (Zero-UPX Corporate EDR Safe)",
-      "signed_at_utc": "2026-11-05T15:59:50Z",
+      "signed_at_utc": "2026-11-05T19:21:23Z",
       "signer_public_key": {
-        "key_id": "official-release-signer-f249999391e5349b",
+        "key_id": "official-release-signer-8728be3d94920270",
         "algorithm": "HYBRID-ED25519-ML-DSA-65-FIPS204",
-        "ed25519_public_b64": "_fyUQiX_vB0mv_1W5ifKTFSkqVb_OhxEu9kZJ6fiLCA",
-        "mldsa65_public_b64": "4fq1AETUpbk-xJdMXBjwu4WSvwtGvtP8IWWnoBu7J5KAi1gARgtRAE3HVQBaqToAAYFRABQGBQDig08AgYtYAKOFKACUrisAW6k6ANwEBQDo9DgA_Z58AB_8egC3400A8coAAOgWHwC4CQoAMvFLAP-efADCNWwAhTYiAIN5LACRW3wAAIFRAH3tXgA_d10AATcxAKKFKACEeSwAW6k6AFfMuRJkPoHQQ1PwMwSYMXgkH0DPXf66Tz7NB8jHPFUu",
-        "created_at": "2026-11-05T15:59:50Z"
+        "ed25519_public_b64": "GmtWxIRYrcZU-qXlS6kNNtIyziftobxxuyB-73zXMVY",
+        "mldsa65_public_b64": "JT9YpymND4xNp1g9vETAVOZ0Y8tPGx_U--F1snV424u07hAAVdx8AHn0NwCCPFYAeboyAJumUAAbpHEArTsEAERQSgDx6G8AlcArAD5NWQD3bHwALgFFAFl3CABGUEoATfsfAG_YAACipiwAkDNNAJiAIgC07hAAE4wyAB0CCACFPFYAoaYsAKgZVAAapHEA29AOADTEFwDx6G8AcNgAAGvoiKG8rRFtDtuDwp0GK6GP3gqgVKAdZXs5azBcXO-7",
+        "created_at": "2026-11-05T19:21:23Z"
       },
-      "hybrid_signature_b64": "be80v_7Fr4LH56f-wvKe47QcfTivwD_DRvS9BmwwfJJ9RG21dTDslD8EA_dZ3exnW07kpGqhmjMXss2PoB_7AHuZpc68BZM5uC5kvZtxYEppFLYyePY7vPOuQ3L-0_3X7AVjACSmTABr1xEAMuNAAGjsXABwLTIAFzNrAHobIAA"
+      "hybrid_signature_b64": "P821248wo1vLl1krbJdtCkHphNhU65OKwX9FpOHrhJb3qFhjXFqiJhOLypNfy6F2aVIsp1mbJBgRvdSxHWPYAR-sKX3WBNP-WMyeqIjD_LuFsJ3jucjnxsLejqfdAaFyYiMqAHF5LADu1xsAP_M-AN2WZQCHBCYAgmgrAJiyWAA"
     },
     {
       "product": "squad-ai-harness",
@@ -70,30 +70,30 @@
       "min_allowed_version": "0.8.0",
       "target_os": "linux",
       "target_arch": "amd64",
-      "sha256_hex": "295ff67eace716d0d9a6c4d7c11c3cd1e98908d1364b26a060eca3dbb4d6a0c7",
-      "size_bytes": 1034,
+      "sha256_hex": "8117a9e6da413e4d6c227aa98083dd8e27c31bffb31ba671555b341d219cc465",
+      "size_bytes": 1036,
       "compiler_flags": "CGO_ENABLED=0 -trimpath -ldflags='-s -w -buildid='",
       "packer_used": "NONE (Zero-UPX Corporate EDR Safe)",
-      "signed_at_utc": "2026-11-05T15:59:50Z",
+      "signed_at_utc": "2026-11-05T19:21:23Z",
       "signer_public_key": {
-        "key_id": "official-release-signer-f249999391e5349b",
+        "key_id": "official-release-signer-8728be3d94920270",
         "algorithm": "HYBRID-ED25519-ML-DSA-65-FIPS204",
-        "ed25519_public_b64": "_fyUQiX_vB0mv_1W5ifKTFSkqVb_OhxEu9kZJ6fiLCA",
-        "mldsa65_public_b64": "4fq1AETUpbk-xJdMXBjwu4WSvwtGvtP8IWWnoBu7J5KAi1gARgtRAE3HVQBaqToAAYFRABQGBQDig08AgYtYAKOFKACUrisAW6k6ANwEBQDo9DgA_Z58AB_8egC3400A8coAAOgWHwC4CQoAMvFLAP-efADCNWwAhTYiAIN5LACRW3wAAIFRAH3tXgA_d10AATcxAKKFKACEeSwAW6k6AFfMuRJkPoHQQ1PwMwSYMXgkH0DPXf66Tz7NB8jHPFUu",
-        "created_at": "2026-11-05T15:59:50Z"
+        "ed25519_public_b64": "GmtWxIRYrcZU-qXlS6kNNtIyziftobxxuyB-73zXMVY",
+        "mldsa65_public_b64": "JT9YpymND4xNp1g9vETAVOZ0Y8tPGx_U--F1snV424u07hAAVdx8AHn0NwCCPFYAeboyAJumUAAbpHEArTsEAERQSgDx6G8AlcArAD5NWQD3bHwALgFFAFl3CABGUEoATfsfAG_YAACipiwAkDNNAJiAIgC07hAAE4wyAB0CCACFPFYAoaYsAKgZVAAapHEA29AOADTEFwDx6G8AcNgAAGvoiKG8rRFtDtuDwp0GK6GP3gqgVKAdZXs5azBcXO-7",
+        "created_at": "2026-11-05T19:21:23Z"
       },
-      "hybrid_signature_b64": "EDSN_BMtKkenqRQQLKCRuu-LOjmEvjd4qemuXm4k8a37CXDO02kuC6lDxLZIzoN9WfaJ6H5K3fXletGZ4uwfBT1CDqEaBYPIcPPfIEE0kEXFE_g2t_cimIvA9MEe2MQYRp45AK8wPwDZw0QA7EtvAFh1ZACr9WQARx1lAI4YJAA"
+      "hybrid_signature_b64": "BhWsnKxhaBqtLkoFD7XQvUX91psxREIAjBFbqm4I22GYfbsCpcE6kVwJhO5yv5_BC-0S9qmAFatXlOmtDXhnB-1QRwUOyZknKjpwba6Nk8KQqtzXc_FHexFghpMPlRQEjPw1AM9edwB_eHUA0RsZAP_cKgBGYwoAONdkAB6_EQA"
     }
   ],
   "min_allowed_version": "0.8.0",
   "product": "squad-ai-harness",
-  "published_at_utc": "2026-11-05T15:59:50Z",
+  "published_at_utc": "2026-11-05T19:21:23Z",
   "publisher_public_key": {
-    "key_id": "official-release-signer-f249999391e5349b",
+    "key_id": "official-release-signer-8728be3d94920270",
     "algorithm": "HYBRID-ED25519-ML-DSA-65-FIPS204",
-    "ed25519_public_b64": "_fyUQiX_vB0mv_1W5ifKTFSkqVb_OhxEu9kZJ6fiLCA",
-    "mldsa65_public_b64": "4fq1AETUpbk-xJdMXBjwu4WSvwtGvtP8IWWnoBu7J5KAi1gARgtRAE3HVQBaqToAAYFRABQGBQDig08AgYtYAKOFKACUrisAW6k6ANwEBQDo9DgA_Z58AB_8egC3400A8coAAOgWHwC4CQoAMvFLAP-efADCNWwAhTYiAIN5LACRW3wAAIFRAH3tXgA_d10AATcxAKKFKACEeSwAW6k6AFfMuRJkPoHQQ1PwMwSYMXgkH0DPXf66Tz7NB8jHPFUu",
-    "created_at": "2026-11-05T15:59:50Z"
+    "ed25519_public_b64": "GmtWxIRYrcZU-qXlS6kNNtIyziftobxxuyB-73zXMVY",
+    "mldsa65_public_b64": "JT9YpymND4xNp1g9vETAVOZ0Y8tPGx_U--F1snV424u07hAAVdx8AHn0NwCCPFYAeboyAJumUAAbpHEArTsEAERQSgDx6G8AlcArAD5NWQD3bHwALgFFAFl3CABGUEoATfsfAG_YAACipiwAkDNNAJiAIgC07hAAE4wyAB0CCACFPFYAoaYsAKgZVAAapHEA29AOADTEFwDx6G8AcNgAAGvoiKG8rRFtDtuDwp0GK6GP3gqgVKAdZXs5azBcXO-7",
+    "created_at": "2026-11-05T19:21:23Z"
   },
   "version": "1.0.113"
 }
