@@ -1,0 +1,11 @@
+{
+  "audit_access_models": [
+    "MODEL_A_PRIVATE_SOURCE_AUDIT",
+    "MODEL_B_ENTERPRISE_INDEPENDENT_BUILD",
+    "MODEL_C_INSPECTABLE_HYBRID"
+  ],
+  "cgo_enabled": false,
+  "external_go_mod_deps": 0,
+  "go_version": "go1.24.3",
+  "source_tree_sha256": "520707f44137e8da9e4e240f34bf63b12826f481d357cf98e0c85bab146a5a31"
+}

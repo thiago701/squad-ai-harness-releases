@@ -1,0 +1,6 @@
+{
+  "critical": 0,
+  "high": 0,
+  "scanner": "sonar-first-go-ast + gosec-rules",
+  "status": "PASS"
+}

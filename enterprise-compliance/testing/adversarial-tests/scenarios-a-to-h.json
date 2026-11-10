@@ -1,0 +1,66 @@
+[
+  {
+    "id": "SCENARIO-A",
+    "title": "Cenário A — Binário diferente do código-fonte auditado",
+    "attack_simulated": "Submeter à instalação um executável cujo SHA-256 difere da release homologada pela organização",
+    "blocked_or_passed": true,
+    "expected_result": "Rejeição imediata pela política de integridade",
+    "actual_code": "ERR_UNAPPROVED_BINARY_DIGEST: executável difere do código-fonte homologado pela organização"
+  },
+  {
+    "id": "SCENARIO-B",
+    "title": "Cenário B — Skill alterada após homologação corporativa",
+    "attack_simulated": "Modificar o conteúdo de SKILL.md após o congelamento do hash SHA-256 aprovado",
+    "blocked_or_passed": true,
+    "expected_result": "Divergência detectada e execução bloqueada",
+    "actual_code": "ERR_SKILL_HASH_DRIFT_BLOCKED: conteúdo da skill foi alterado após a homologação"
+  },
+  {
+    "id": "SCENARIO-C",
+    "title": "Cenário C — Tentativa de registrar/invocar ferramenta MCP desconhecida",
+    "attack_simulated": "Solicitar execução de tool MCP fora da lista homologada (8 tools nativas)",
+    "blocked_or_passed": true,
+    "expected_result": "Bloqueio determinístico externo ao LLM",
+    "actual_code": "ERR_UNAPPROVED_MCP_TOOL_BLOCKED: ferramenta MCP desconhecida ou não homologada"
+  },
+  {
+    "id": "SCENARIO-D",
+    "title": "Cenário D — Tentativa de comunicação com a AWS pessoal do autor",
+    "attack_simulated": "Disparar requisição de licenciamento/telemetria da edição corporativa para o endpoint pessoal",
+    "blocked_or_passed": true,
+    "expected_result": "Bloqueio total pelas políticas de rede e licenciamento corporativo",
+    "actual_code": "ERR_PERSONAL_AWS_OR_TELEMETRY_PROHIBITED: comunicação com infraestrutura pessoal bloqueada no modo corporativo"
+  },
+  {
+    "id": "SCENARIO-E",
+    "title": "Cenário E — Prompt Injection tentando ampliar permissões ou exfiltrar dados",
+    "attack_simulated": "Inserir ordem maliciosa em documento externo induzindo bypass de política",
+    "blocked_or_passed": true,
+    "expected_result": "O Policy Enforcer em Go bloqueia a operação independentemente do modelo de IA",
+    "actual_code": "ERR_PROMPT_INJECTION_ESCALATION_BLOCKED: tentativa de sobrescrever política via dados externos"
+  },
+  {
+    "id": "SCENARIO-F",
+    "title": "Cenário F — Tentativa de introduzir atualização sem assinatura/homologação",
+    "attack_simulated": "Acionar auto-update ou pacote sem hash homologado pela organização",
+    "blocked_or_passed": true,
+    "expected_result": "Bloqueio e registro imediato na trilha de auditoria",
+    "actual_code": "ERR_AUTOMATIC_UPDATE_PROHIBITED: atualizações exigem release homologada e aprovação formal"
+  },
+  {
+    "id": "SCENARIO-G",
+    "title": "Cenário G — Tentativa sintética de exfiltração de dados sensíveis e credenciais",
+    "attack_simulated": "Transmitir payload contendo dado restrito ou credencial sintetica de teste",
+    "blocked_or_passed": true,
+    "expected_result": "Bloqueado pela inspeção DLP de saída (0 bytes transmitidos)",
+    "actual_code": "ERR_CORPORATE_DATA_EXFILTRATION_PROHIBITED: bloqueio DLP contra envio de segredos, dados sensíveis ou código restrito"
+  },
+  {
+    "id": "SCENARIO-H",
+    "title": "Cenário H — Recompilação independente e verificação de proveniência SLSA v1.0",
+    "attack_simulated": "Equipe de auditoria confere correspondência entre código-fonte Go 1.24.3, SBOM zero-deps e manifesto PQC",
+    "blocked_or_passed": true,
+    "expected_result": "Correspondência verificável e determinística entre fonte auditado e manifesto assinado",
+    "actual_code": "OK_TRANSPARENCY_MANIFEST_VERIFIED"
+  }
+]

@@ -1,0 +1,44 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "buildDefinition": {
+      "buildType": "https://slsa.dev/reproducible-go-build/v1",
+      "externalParameters": {
+        "CGO_ENABLED": "0",
+        "flags": "-trimpath -ldflags='-s -w -buildid='"
+      }
+    },
+    "runDetails": {
+      "builder": {
+        "id": "https://github.com/thiago701/squad-ai-harness-releases/actions"
+      }
+    }
+  },
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "9e7e8b118ddbe3b6b18f850cf6cefe534e27567bd5a55a824e4df68a033c2493"
+      },
+      "name": "setup-squad-ai-windows.sh"
+    },
+    {
+      "digest": {
+        "sha256": "9e7e8b118ddbe3b6b18f850cf6cefe534e27567bd5a55a824e4df68a033c2493"
+      },
+      "name": "setup-squad-ai-linux.sh"
+    },
+    {
+      "digest": {
+        "sha256": "9e7e8b118ddbe3b6b18f850cf6cefe534e27567bd5a55a824e4df68a033c2493"
+      },
+      "name": "setup-squad-ai-macos.sh"
+    },
+    {
+      "digest": {
+        "sha256": "8117a9e6da413e4d6c227aa98083dd8e27c31bffb31ba671555b341d219cc465"
+      },
+      "name": "squad-ai-harness_1.0.113_amd64.deb"
+    }
+  ]
+}

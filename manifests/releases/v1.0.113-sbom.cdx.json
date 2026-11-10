@@ -1,0 +1,23 @@
+{
+  "bomFormat": "CycloneDX",
+  "components": [
+    {
+      "Scope": "required",
+      "name": "go-stdlib-crypto",
+      "type": "library",
+      "version": "go1.24.3"
+    }
+  ],
+  "metadata": {
+    "component": {
+      "name": "SquadAI Harness — Official Releases",
+      "purl": "pkg:golang/github.com/thiago701/squad-ai-harness-releases@v1.0.113",
+      "type": "application",
+      "version": "1.0.113"
+    },
+    "timestamp": "2026-11-05T19:21:23Z"
+  },
+  "serialNumber": "urn:uuid:squad-ai-harness-v1.0.113",
+  "specVersion": "1.5",
+  "version": 1
+}
