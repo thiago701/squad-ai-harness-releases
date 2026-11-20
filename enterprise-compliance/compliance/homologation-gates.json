@@ -20,7 +20,7 @@
     "deliverables_verified": [
       "SQUADAI-TRANSPARENCY-MANIFEST.json",
       "SBOM CycloneDX 1.5 (0 deps externas em go.mod)",
-      "Inventário de 109 skills e 8 tools MCP"
+      "Inventário de 114 skills e 8 tools MCP"
     ]
   },
   {
@@ -30,7 +30,7 @@
     "institutional_status": "TECHNICAL_EVIDENCE_READY_AWAITING_INSTITUTIONAL_REVIEW",
     "required_sign_off_owner": "Auditoria Independente / Red Team Corporativo",
     "deliverables_verified": [
-      "Código-fonte Go 1.24.3 integralmente inspecionável",
+      "Código-fonte go1.27.4 integralmente inspecionável",
       "Proveniência SLSA v1.0",
       "Recompilação determinística (-trimpath -ldflags='-s -w')"
     ]

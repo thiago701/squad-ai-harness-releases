@@ -48,7 +48,7 @@ if exist "%COMPLIANCE_DIR%\security\sast-report.json" if exist "%COMPLIANCE_DIR%
 
 :: GATE-03: AI Governance, MCP Inventory (8 Approved Tools) & Skills Least-Agency
 if exist "%COMPLIANCE_DIR%\ai-governance\mcp-inventory.json" if exist "%COMPLIANCE_DIR%\ai-governance\skills-inventory.json" (
-    echo [PASS] GATE-03 - AI_GOVERNANCE_AND_LEAST_AGENCY ^(8 MCP Tools ReadOnly + 113 Skills Protected^)
+    echo [PASS] GATE-03 - AI_GOVERNANCE_AND_LEAST_AGENCY ^(8 MCP Tools ReadOnly + 114 Skills Protected^)
     set /a GATES_PASSED+=1
 ) else (
     echo [FAIL] GATE-03 - AI_GOVERNANCE_AND_LEAST_AGENCY

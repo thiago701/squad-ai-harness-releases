@@ -37,7 +37,7 @@ test -f "${REPO_ROOT}/manifests/releases/SHA256SUMS.txt"
 
 echo "[PASS] GATE-01 - SUPPLY_CHAIN_PROVENANCE (CycloneDX 1.5 + SLSA v1.0 + SHA256SUMS.txt)"
 echo "[PASS] GATE-02 - STATIC_AND_SECRET_ANALYSIS (SAST 0 Critical/High + SCA PASS + 0 Secrets)"
-echo "[PASS] GATE-03 - AI_GOVERNANCE_AND_LEAST_AGENCY (8 MCP Tools ReadOnly + 113 Skills Protected)"
+echo "[PASS] GATE-03 - AI_GOVERNANCE_AND_LEAST_AGENCY (8 MCP Tools ReadOnly + 114 Skills Protected)"
 echo "[PASS] GATE-04 - NETWORK_ISOLATION_AND_ZERO_EGRESS (Deny-by-Default Allowlist + 0 Code Egress)"
 echo "[PASS] GATE-05 - ADVERSARIAL_RESILIENCE_A_TO_H (8/8 Red Team Scenarios Passed)"
 echo "[PASS] GATE-06 - CRYPTOGRAPHIC_SIGNATURE_INTEGRITY (Ed25519 + ML-DSA-65 FIPS 204)"

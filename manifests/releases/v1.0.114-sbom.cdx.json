@@ -2,10 +2,10 @@
   "bomFormat": "CycloneDX",
   "components": [
     {
-      "Scope": "required",
       "name": "go-stdlib-crypto",
+      "scope": "required",
       "type": "library",
-      "version": "go1.24.3"
+      "version": "go1.27.4"
     }
   ],
   "metadata": {
@@ -15,9 +15,9 @@
       "type": "application",
       "version": "1.0.114"
     },
-    "timestamp": "2026-11-10T04:14:26Z"
+    "timestamp": "2026-11-20T11:12:09Z"
   },
-  "serialNumber": "urn:uuid:squad-ai-harness-v1.0.114",
+  "serialNumber": "urn:uuid:01a1f8a8-1cd8-7478-9822-a84f625cd72a",
   "specVersion": "1.5",
   "version": 1
 }

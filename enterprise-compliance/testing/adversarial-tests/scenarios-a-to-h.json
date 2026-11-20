@@ -13,7 +13,7 @@
     "attack_simulated": "Modificar o conteúdo de SKILL.md após o congelamento do hash SHA-256 aprovado",
     "blocked_or_passed": true,
     "expected_result": "Divergência detectada e execução bloqueada",
-    "actual_code": "ERR_SKILL_HASH_DRIFT_BLOCKED: conteúdo da skill foi alterado após a homologação"
+    "actual_code": "ERR_SKILL_HASH_DRIFT_BLOCKED: conteúdo da skill ausente ou alterado após a homologação"
   },
   {
     "id": "SCENARIO-C",
@@ -58,7 +58,7 @@
   {
     "id": "SCENARIO-H",
     "title": "Cenário H — Recompilação independente e verificação de proveniência SLSA v1.0",
-    "attack_simulated": "Equipe de auditoria confere correspondência entre código-fonte Go 1.24.3, SBOM zero-deps e manifesto PQC",
+    "attack_simulated": "Equipe de auditoria confere correspondência entre código-fonte go1.27.4, SBOM zero-deps e manifesto PQC",
     "blocked_or_passed": true,
     "expected_result": "Correspondência verificável e determinística entre fonte auditado e manifesto assinado",
     "actual_code": "OK_TRANSPARENCY_MANIFEST_VERIFIED"

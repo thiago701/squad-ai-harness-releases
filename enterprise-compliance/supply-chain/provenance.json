@@ -4,13 +4,13 @@
   "build_config": {
     "cgo_enabled": 0,
     "command": "CGO_ENABLED=0 go build -trimpath -ldflags=\"-s -w\" -o squad-harness ./cmd/squad-harness",
-    "go_version": "go1.24.3",
+    "go_version": "go1.27.4",
     "strip_symbol": true,
     "trimpath": true
   },
   "materials": [
     {
-      "sha256": "520707f44137e8da9e4e240f34bf63b12826f481d357cf98e0c85bab146a5a31",
+      "sha256": "c63546d428bcd6b3deb52483f9a53a19574ddaed57ce960130f19314da7fc04b",
       "uri": "git+https://github.com/thiago701/squad-ai-harness-releases"
     }
   ],

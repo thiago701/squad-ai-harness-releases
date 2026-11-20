@@ -4,41 +4,41 @@
   "version": 1,
   "metadata": {
     "cgo_enabled": false,
-    "scope_coverage": "Inclui runtime Go 1.24.3, 0 deps externas, 8 tools MCP e 109 skills canônicas.",
-    "timestamp": "2026-11-05T19:21:23Z",
+    "scope_coverage": "Inclui runtime go1.27.4, 0 deps externas, 8 tools MCP e 114 skills canônicas.",
+    "timestamp": "2026-11-20T11:12:09Z",
     "zero_external_dependencies": true
   },
   "components": [
     {
       "license": "Apache-2.0",
       "name": "squad-ai-harness",
-      "purl": "pkg:golang/github.com/thiago701/squad-ai-harness-releases@1.0.113",
-      "sha256": "520707f44137e8da9e4e240f34bf63b12826f481d357cf98e0c85bab146a5a31",
+      "purl": "pkg:golang/github.com/thiago701/squad-ai-harness-releases@1.0.114",
+      "sha256": "c63546d428bcd6b3deb52483f9a53a19574ddaed57ce960130f19314da7fc04b",
       "type": "application",
-      "version": "1.0.113"
+      "version": "1.0.114"
     },
     {
       "license": "BSD-3-Clause",
       "name": "go-stdlib-runtime",
       "note": "CGO_ENABLED=0 · Zero dependências externas no go.mod",
-      "purl": "pkg:generic/golang-stdlib@go1.24.3",
+      "purl": "pkg:generic/golang-stdlib@go1.27.4",
       "type": "framework",
-      "version": "go1.24.3"
+      "version": "go1.27.4"
     },
     {
       "license": "Apache-2.0",
       "name": "squad-ai-canonical-skills-catalog",
-      "sha256": "e25466ab7160071202c951dcb2a22be09be4a6cca530d153cc7bc0e8488b620c",
+      "sha256": "088c9043f8256d4734bd924f2cfa253e44a07addccfd9a934af1b54d0706fc7f",
       "type": "library",
-      "version": "1.0.113"
+      "version": "1.0.114"
     }
   ],
   "dependencies": [
     {
       "dependsOn": [
-        "pkg:generic/golang-stdlib@go1.24.3"
+        "pkg:generic/golang-stdlib@go1.27.4"
       ],
-      "ref": "pkg:golang/github.com/thiago701/squad-ai-harness-releases@1.0.113"
+      "ref": "pkg:golang/github.com/thiago701/squad-ai-harness-releases@1.0.114"
     }
   ]
 }
