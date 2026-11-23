@@ -8,7 +8,7 @@
     "fips140_enforced": false,
     "fips140_module_version": "latest",
     "scope_coverage": "Inclui runtime go1.27.4, 0 deps externas, CBOM crypto/fips140, 21 tools MCP e 114 skills canônicas.",
-    "timestamp": "2026-11-23T22:02:52Z",
+    "timestamp": "2026-11-23T22:37:06Z",
     "zero_external_dependencies": true
   },
   "cryptographic_bom": {
