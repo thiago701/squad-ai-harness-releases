@@ -1,4 +1,4 @@
-fca1e342e0a2ba308bff58aeb45d15d0da818565b64474c7a0fe5806ba5813c0  setup-squad-ai-windows.sh
-39023486c039560d50954dec353850b0b8fcc541f5802121c6e1b3d2f9d38b64  setup-squad-ai-linux.sh
-54294f3d3b258705c9494f997eb969f3b8acc226b6e2225d933db2838fa69073  setup-squad-ai-macos.sh
+ec67815b68b13df9c94214d213dcad26a8dda4ff663149a42bd6d7b9fd9b1acc  setup-squad-ai-windows.sh
+80c12072cd353d5fa1e3942f1eb7c97f20bd29bca54fdb58d7584aa9eedb8ee6  setup-squad-ai-linux.sh
+21d0c4f056292559fb277d3a387c9c78850c576d524d986fb63da6eacb056bd8  setup-squad-ai-macos.sh
 501655d13a368888c43d7f014d144cdb5af3fef713553f77ee722bc1b4074af0  squad-ai-harness_1.1.114_amd64.deb

@@ -1,23 +1,23 @@
 {
-  "serialNumber": "urn:uuid:01a20a6e-f15f-79e8-b0c0-6a1d60234aa1",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:01a20a8e-4804-7f0b-a462-3753f2a2451b",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-11-23T22:02:52Z",
+    "timestamp": "2026-11-23T22:37:06Z",
     "component": {
-      "version": "1.1.114",
-      "purl": "pkg:generic/squad-ai-harness@v1.1.114",
       "type": "application",
-      "name": "SquadAI Harness — Official Releases"
+      "name": "SquadAI Harness — Official Releases",
+      "version": "1.1.114",
+      "purl": "pkg:generic/squad-ai-harness@v1.1.114"
     }
   },
   "components": [
     {
+      "type": "library",
       "name": "go-stdlib-crypto",
       "version": "go1.27.4",
-      "scope": "required",
-      "type": "library"
+      "scope": "required"
     }
   ],
-  "bomFormat": "CycloneDX",
-  "specVersion": "1.5"
+  "bomFormat": "CycloneDX"
 }
