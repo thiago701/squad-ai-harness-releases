@@ -1,4 +1,4 @@
-# SquadAI Harness — Official Releases (v1.0.114)
+# SquadAI Harness — Official Releases (v1.1.114)
 
 <div align="center">
   <img src="assets/logo-squad-ai-harness.jpg" alt="SquadAI Harness — Official Releases" width="100%" />
@@ -15,9 +15,9 @@
       <tr>
         <td nowrap="nowrap"><strong>📦 Release &amp; Ambiente</strong></td>
         <td align="left">
-          <a href="manifests/releases/v1.0.114-release-manifest.json"><img src="https://img.shields.io/badge/Version-v1.0.114-2563EB?style=flat-square" alt="Version" /></a>
+          <a href="manifests/releases/v1.1.114-release-manifest.json"><img src="https://img.shields.io/badge/Version-v1.1.114-2563EB?style=flat-square" alt="Version" /></a>
           <a href="docs/installation.md"><img src="https://img.shields.io/badge/OS-Windows%2010%2F11%20%7C%20Linux%20.deb%20%7C%20macOS-F59E0B?style=flat-square" alt="Multi-OS Installer" /></a>
-          <a href="manifests/releases/v1.0.114-sbom.cdx.json"><img src="https://img.shields.io/badge/SBOM-CycloneDX%201.5-AB47BC?style=flat-square" alt="SBOM" /></a>
+          <a href="manifests/releases/v1.1.114-sbom.cdx.json"><img src="https://img.shields.io/badge/SBOM-CycloneDX%201.5-AB47BC?style=flat-square" alt="SBOM" /></a>
           <a href="audit/audit-infosec.cmd"><img src="https://img.shields.io/badge/InfoSec%20Audit-8%2F8%20Gates%20PASS-00C853?style=flat-square" alt="InfoSec Audit" /></a>
         </td>
       </tr>
@@ -27,7 +27,7 @@
           <img src="https://img.shields.io/badge/Java-21%20%7C%2025%20LTS%20%7C%2026%2F27-ED8B00?style=flat-square&logo=openjdk&logoColor=white" alt="Java 25 LTS" />
           <img src="https://img.shields.io/badge/Spring%20Boot-4.x%20%2F%20Framework%207-6DB33F?style=flat-square&logo=springboot&logoColor=white" alt="Spring Boot 4" />
           <img src="https://img.shields.io/badge/Quarkus-3.39%20%2B%20GraalVM%20Native%20AOT-4695EB?style=flat-square&logo=quarkus&logoColor=white" alt="Quarkus AOT" />
-          <img src="https://img.shields.io/badge/Go-1.24%E2%80%931.27%20Cloud%20Native-00ADD8?style=flat-square&logo=go&logoColor=white" alt="Go Cloud Native" />
+          <img src="https://img.shields.io/badge/Go-1.27.4%20Cloud%20Native-00ADD8?style=flat-square&logo=go&logoColor=white" alt="Go 1.27.4 Cloud Native" />
           <img src="https://img.shields.io/badge/Rust-1.99%20(Edition%202024)-000000?style=flat-square&logo=rust&logoColor=white" alt="Rust 1.99" />
           <img src="https://img.shields.io/badge/.NET%2010%20LTS-C%23%2014%20Native%20AOT-512BD4?style=flat-square&logo=dotnet&logoColor=white" alt=".NET 10 C# 14" />
         </td>
@@ -82,13 +82,13 @@
 
 O **SquadAI Harness** é uma ferramenta de apoio à engenharia de software que disponibiliza especialistas técnicos (arquitetura, desenvolvimento backend/frontend, banco de dados, nuvem AWS, testes e segurança) diretamente na sua IDE ou terminal via **Model Context Protocol (MCP)**.
 
-Este repositório (`squad-ai-harness-releases`) reúne os **instaladores oficiais**, os **guias de uso** e os **scripts de verificação de segurança** da versão `v1.0.114`.
+Este repositório (`squad-ai-harness-releases`) reúne os **instaladores oficiais**, os **guias de uso** e os **scripts de verificação de segurança** da versão `v1.1.114`.
 
 ---
 
 ## 2. Ferramentas e IDEs Compatíveis
 
-O instalador provisiona as **113 skills especializadas** seguindo a regra de **Pastas Padrão no `$HOME`** e **Detecção Automática**:
+O instalador provisiona as **114 skills especializadas** seguindo a regra de **Pastas Padrão no `$HOME`** e **Detecção Automática**:
 
 - **Provisionadas por padrão no `$HOME` (`%USERPROFILE%`) mesmo que ainda não existam:**
   - **Claude Code / Cowork** (`~/.claude/skills`)
@@ -140,7 +140,7 @@ Em redes corporativas onde o proxy/firewall bloqueia downloads de `releases/down
 1. Acesse a aba **[Releases](../../releases/latest)** (ou clique no arquivo direto na raiz deste repositório) e baixe o instalador do seu Sistema Operacional (`setup-squad-ai-windows.sh`, `setup-squad-ai-linux.sh` ou `setup-squad-ai-macos.sh`).
 2. Abra o **Git Bash / Terminal** e execute o Setup Wizard interativo (`[1] INSTALAR`, `[2] REINSTALAR`, `[3] DESINSTALAR`, `[4] AUDITORIA`) ou passe a flag diretamente:
 
-       # Instalar (113 skills + configuração interativa/automática de aceleração complementar NPU e GPU)
+       # Instalar (114 skills + configuração interativa/automática de aceleração complementar NPU e GPU)
        bash ./setup-squad-ai-windows.sh --install
 
        # Reinstalar / Reparar preservando o Identificador (QID) da estação
@@ -154,7 +154,7 @@ Em redes corporativas onde o proxy/firewall bloqueia downloads de `releases/down
 
 ### Pacote Nativo Debian/Ubuntu (`.deb`) para Linux (Opcional)
 
-       sudo dpkg -i squad-ai-harness_1.0.114_amd64.deb
+       sudo dpkg -i squad-ai-harness_1.1.114_amd64.deb
 
 Consulte o passo a passo completo em [docs/installation.md](docs/installation.md) e [docs/TUTORIAL_INSTALACAO_E_MCP_REMOTO.md](docs/TUTORIAL_INSTALACAO_E_MCP_REMOTO.md).
 
@@ -167,7 +167,7 @@ Após concluir a instalação, abra o chat da sua IDE (**Claude Code**, **Google
 | Objetivo | Exemplo de Comando no Chat da IDE |
 |---|---|
 | **Iniciar um projeto ou funcionalidade com a equipe completa** | `"Squad ai, prepare a equipe"` |
-| **Listar todos os 113 especialistas e domínios disponíveis** | `"Squad ai, quais suas habilidades?"` |
+| **Listar todos os 114 especialistas e domínios disponíveis** | `"Squad ai, quais suas habilidades?"` |
 | **Projetar dashboards executivos e analíticos (Zero-JS / SSR)** | `"Squad ai, crie um dashboard executivo com o intelligent-dashboard-engineer"` |
 | **Investigar a causa raiz de um erro ou falha de build/runtime** | `"Squad ai, investigue a causa raiz deste erro"` |
 | **Revisar código com foco em arquitetura, segurança e performance** | `"Squad ai, revise este código com o Tech Lead e Engenheiro de Segurança"` |
@@ -222,7 +222,7 @@ Documentação para equipes de segurança e governança:
 ## 7. Perguntas Frequentes (FAQ)
 
 - **Para instalar pelo `setup-squad-ai-windows.sh` preciso clonar o repositório ou descompactar algum `.zip`?**
-  Não. Os instaladores da aba **[Releases](../../releases/latest)** (`setup-squad-ai-windows.sh`, `setup-squad-ai-linux.sh` e `setup-squad-ai-macos.sh`, `4,04 MB`) são 100% autossuficientes e trazem todas as **113 skills completas** embutidas. Basta baixar o arquivo `.sh` do seu SO e executar no Git Bash / Terminal.
+  Não. Os instaladores da aba **[Releases](../../releases/latest)** (`setup-squad-ai-windows.sh`, `setup-squad-ai-linux.sh` e `setup-squad-ai-macos.sh`, `4,04 MB`) são 100% autossuficientes e trazem todas as **114 skills completas** embutidas. Basta baixar o arquivo `.sh` do seu SO e executar no Git Bash / Terminal.
 - **O instalador do Windows precisa do PowerShell ou de permissão de Administrador?**
   Não. O instalador `setup-squad-ai-windows.sh` funciona diretamente via **Git Bash (`bash`)** em um único arquivo auditável, instalando as skills apenas na pasta do próprio usuário (`%USERPROFILE%`) e exibindo confirmação explícita de `[SUCESSO]` ou `[FALHA]` no final.
 - **Como a equipe de Segurança da Informação pode auditar o instalador?**

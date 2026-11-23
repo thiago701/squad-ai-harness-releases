@@ -1,10 +1,23 @@
 [
+  "squad_tool_search",
   "squad_route_skill",
+  "squad_batch_query",
   "squad_sekg_query",
-  "squad_sekg_impact",
   "squad_jev_review",
+  "squad_sekg_impact",
   "squad_cultivator_status",
   "squad_usage_report",
   "squad_resolve_quid",
-  "squad_aiops_monitor"
+  "squad_lab_list",
+  "squad_lab_inspect",
+  "squad_aiops_monitor",
+  "squad_skills_sync",
+  "peers.list",
+  "peers.health",
+  "diagnostics.local",
+  "diagnostics.remote",
+  "reports.latest",
+  "reports.history",
+  "reports.compare",
+  "security.audit"
 ]
