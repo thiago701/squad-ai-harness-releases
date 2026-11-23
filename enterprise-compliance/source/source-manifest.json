@@ -6,6 +6,29 @@
   ],
   "cgo_enabled": false,
   "external_go_mod_deps": 0,
-  "go_version": "go1.24.3",
-  "source_tree_sha256": "520707f44137e8da9e4e240f34bf63b12826f481d357cf98e0c85bab146a5a31"
+  "fips140_status": {
+    "fips140_enabled": false,
+    "fips140_enforced": false,
+    "fips140_module_version": "latest",
+    "signature_algorithms": [
+      "Ed25519",
+      "ML-DSA-65 (NIST FIPS 204)",
+      "ECDSA-P256"
+    ],
+    "key_exchange_algorithms": [
+      "X25519MLKEM768",
+      "SecP256r1MLKEM768",
+      "SecP384r1MLKEM1024",
+      "TLS 1.3"
+    ],
+    "symmetric_algorithms": [
+      "AES-256-GCM"
+    ],
+    "hash_algorithms": [
+      "SHA-256"
+    ],
+    "authscope_token_scheme": "HYBRID-ED25519-ML-DSA-65-FIPS204"
+  },
+  "go_version": "go1.27.4",
+  "source_tree_sha256": "8c128c675faa8802203f2cbf13fd0f8859572f3783c1f29f05af2ccbd8b7377c"
 }

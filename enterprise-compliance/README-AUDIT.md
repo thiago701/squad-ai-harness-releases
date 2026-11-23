@@ -1,9 +1,10 @@
 # 🛡️ SquadAI Harness — Enterprise Auditable Edition (Compliance Evidence Pack)
 
-- **Versão Auditada:** 1.0.113
-- **Toolchain:** go1.24.3 (`CGO_ENABLED=0` · **0 dependências externas no `go.mod`**)
-- **Digest da Árvore de Código (`SHA-256`):** `520707f44137e8da9e4e240f34bf63b12826f481d357cf98e0c85bab146a5a31`
-- **Digest do Catálogo de 113 Skills (`SHA-256`):** `e25466ab7160071202c951dcb2a22be09be4a6cca530d153cc7bc0e8488b620c`
+- **Versão Auditada:** 1.1.114
+- **Toolchain:** go1.27.4 (`CGO_ENABLED=0` · **0 dependências externas no `go.mod`**)
+- **Módulo Criptográfico Go FIPS 140-3:** `latest` (`enabled=false` · `enforced=false`)
+- **Digest da Árvore de Código (`SHA-256`):** `8c128c675faa8802203f2cbf13fd0f8859572f3783c1f29f05af2ccbd8b7377c`
+- **Digest do Catálogo de 114 Skills (`SHA-256`):** `212f32711b4954e54237976664cfda9466d2039c55ff5818c805053f401aa3ed`
 - **Cenários Adversariais de Transparência (A–H):** `8/8 PASS`
 - **Bytes Vazados para Destinos Não Autorizados:** `0 bytes`
 - **Status Institucional:** `TECHNICAL_EVIDENCE_READY — AWAITING_OFFICIAL_INSTITUTIONAL_HOMOLOGATION_DECISION (Seção 14: não autodeclarada)`
